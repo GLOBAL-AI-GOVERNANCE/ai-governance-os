@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Risk Register Record",
+  "type": "object",
+  "required": [
+    "risk_id",
+    "system_id",
+    "risk_type",
+    "harm_scenario",
+    "impact",
+    "control_owner",
+    "status"
+  ],
+  "properties": {
+    "risk_id": {
+      "type": "string"
+    },
+    "system_id": {
+      "type": "string"
+    },
+    "risk_type": {
+      "enum": [
+        "misuse",
+        "bias",
+        "privacy",
+        "cyber",
+        "hallucination",
+        "unsafe_autonomy",
+        "legal",
+        "safety",
+        "strategic",
+        "truth_degradation"
+      ]
+    },
+    "harm_scenario": {
+      "type": "string"
+    },
+    "likelihood": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "impact": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "severe"
+      ]
+    },
+    "control": {
+      "type": "string"
+    },
+    "control_owner": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trigger": {
+      "type": "string"
+    },
+    "strategic_knowledge_impact_note": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "open",
+        "mitigated",
+        "accepted",
+        "escalated",
+        "closed"
+      ]
+    }
+  }
+}

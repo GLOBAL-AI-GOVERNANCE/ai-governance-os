@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Incident Record",
+  "type": "object",
+  "required": [
+    "incident_id",
+    "date_detected",
+    "system_id",
+    "severity",
+    "incident_type",
+    "description",
+    "closure_status"
+  ],
+  "properties": {
+    "incident_id": {
+      "type": "string"
+    },
+    "date_detected": {
+      "type": "string"
+    },
+    "system_id": {
+      "type": "string"
+    },
+    "severity": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "incident_type": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "prompt_injection",
+          "data_leak",
+          "harmful_output",
+          "bias",
+          "unsafe_autonomy",
+          "fraud",
+          "model_drift",
+          "unauthorized_tool_use",
+          "truth_degradation",
+          "other"
+        ]
+      }
+    },
+    "description": {
+      "type": "string"
+    },
+    "immediate_containment": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "logs_preserved": {
+      "type": "boolean"
+    },
+    "affected_parties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "harm_assessment": {
+      "type": "string"
+    },
+    "notifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "corrective_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reauthorization_required": {
+      "type": "boolean"
+    },
+    "closure_status": {
+      "enum": [
+        "open",
+        "contained",
+        "corrected",
+        "reauthorized",
+        "retired"
+      ]
+    }
+  }
+}
