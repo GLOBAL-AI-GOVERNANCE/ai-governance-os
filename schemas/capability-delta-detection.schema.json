@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Capability Delta Detection Record",
+  "type": "object",
+  "required": [
+    "system_id",
+    "change_id",
+    "delta_level",
+    "required_action"
+  ],
+  "properties": {
+    "system_id": {
+      "type": "string"
+    },
+    "change_id": {
+      "type": "string"
+    },
+    "change_description": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "new_model_version",
+          "new_tool_access",
+          "new_autonomous_workflow",
+          "new_external_action_permission",
+          "new_data_category",
+          "new_user_population",
+          "new_high_impact_use_case",
+          "serious_incident",
+          "deception_or_goal_hacking",
+          "unauthorized_tool_use",
+          "truth_verifiability_degradation",
+          "major_capability_improvement"
+        ]
+      }
+    },
+    "delta_level": {
+      "enum": [
+        "minor",
+        "material",
+        "major"
+      ]
+    },
+    "required_action": {
+      "enum": [
+        "document_change",
+        "rerun_risk_assessment",
+        "reopen_frontier_gates"
+      ]
+    },
+    "review_owner": {
+      "type": "string"
+    },
+    "review_due_date": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "open",
+        "in_review",
+        "closed"
+      ]
+    }
+  }
+}

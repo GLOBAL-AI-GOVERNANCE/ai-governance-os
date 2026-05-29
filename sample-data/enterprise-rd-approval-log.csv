@@ -1,0 +1,6 @@
+Approval ID,System ID,Request,Risk Tier,Required Reviewers,Evidence Submitted,Decision,Conditions,Approver,Approval Date,Expiration Date
+A-001,AI-001,Internal Writing Assistant deployment,Low,Knowledge Ops,Basic system card,Approve,No confidential uploads unless approved,Knowledge Ops Lead,2026-05-27,2026-11-27
+A-002,AI-002,Code Copilot team rollout,Medium,Engineering; Security,Pilot results; secure coding controls,Approve with limits,Human review for production code,Engineering Manager,2026-05-27,2026-08-27
+A-003,AI-003,HR Resume Screener launch,High,People Ops; Legal; Privacy,Vendor documentation only,Delay,Complete bias audit and legal review,People Ops Director,2026-05-27,2026-06-27
+A-004,AI-004,Contract Analyzer pilot,High,Legal; Procurement; Privacy,Testing plan; vendor review,Approve with limits,Legal approval required before decisions,Legal Ops Lead,2026-05-27,2026-07-27
+A-005,AI-005,Autonomous Research Agent beta,Frontier,R&D; Cyber; Legal; Executive,Initial lab testing,Delay,Complete Frontier Gate Review,R&D Director,2026-05-27,2026-06-27

@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI System Card",
+  "type": "object",
+  "required": [
+    "system_id",
+    "system_name",
+    "owner",
+    "purpose",
+    "risk_tier",
+    "status"
+  ],
+  "properties": {
+    "system_id": {
+      "type": "string"
+    },
+    "system_name": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "object",
+      "required": [
+        "name",
+        "office",
+        "email"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "office": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "vendor_or_internal": {
+      "enum": [
+        "vendor",
+        "internal",
+        "hybrid"
+      ]
+    },
+    "model_type": {
+      "type": "string"
+    },
+    "data_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "connected_tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "risk_tier": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "frontier"
+      ]
+    },
+    "decision_impact": {
+      "enum": [
+        "advisory",
+        "operational",
+        "high_impact",
+        "autonomous"
+      ]
+    },
+    "human_review_required": {
+      "type": "boolean"
+    },
+    "truth_verifiability_delta": {
+      "enum": [
+        "improves",
+        "neutral",
+        "degrades",
+        "unknown"
+      ]
+    },
+    "strategic_knowledge_impact_note": {
+      "type": "string"
+    },
+    "known_failure_modes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "testing_completed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "monitoring_plan": {
+      "type": "string"
+    },
+    "incident_contact": {
+      "type": "string"
+    },
+    "rollback_or_shutdown_path": {
+      "type": "string"
+    },
+    "approval_date": {
+      "type": "string"
+    },
+    "reauthorization_date": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "proposed",
+        "testing",
+        "approved",
+        "limited_release",
+        "paused",
+        "retired"
+      ]
+    }
+  }
+}

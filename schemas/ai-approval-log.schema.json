@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Approval Log Record",
+  "type": "object",
+  "required": [
+    "approval_id",
+    "system_id",
+    "risk_tier",
+    "decision",
+    "approver",
+    "approval_date"
+  ],
+  "properties": {
+    "approval_id": {
+      "type": "string"
+    },
+    "system_id": {
+      "type": "string"
+    },
+    "request": {
+      "type": "string"
+    },
+    "risk_tier": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "frontier"
+      ]
+    },
+    "required_reviewers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_submitted": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "decision": {
+      "enum": [
+        "approve",
+        "approve_with_limits",
+        "delay",
+        "reject",
+        "retire"
+      ]
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approver": {
+      "type": "string"
+    },
+    "approval_date": {
+      "type": "string"
+    },
+    "expiration_date": {
+      "type": "string"
+    }
+  }
+}

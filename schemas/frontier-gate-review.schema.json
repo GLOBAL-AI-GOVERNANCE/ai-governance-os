@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Frontier Gate Review",
+  "type": "object",
+  "required": [
+    "system_id",
+    "review_date",
+    "review_owner",
+    "decision"
+  ],
+  "properties": {
+    "system_id": {
+      "type": "string"
+    },
+    "review_date": {
+      "type": "string"
+    },
+    "review_owner": {
+      "type": "string"
+    },
+    "capability_forecasting": {
+      "type": "object",
+      "properties": {
+        "new_capabilities_identified": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "capability_delta": {
+          "enum": [
+            "none",
+            "minor",
+            "material",
+            "major",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "truth_verifiability": {
+      "type": "object",
+      "properties": {
+        "truth_verifiability_delta": {
+          "enum": [
+            "improves",
+            "neutral",
+            "degrades",
+            "unknown"
+          ]
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "concern": {
+          "type": "string"
+        },
+        "strategic_knowledge_impact_note": {
+          "type": "string"
+        }
+      }
+    },
+    "access_control": {
+      "type": "object",
+      "properties": {
+        "least_privilege_confirmed": {
+          "type": "boolean"
+        },
+        "external_tool_access": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "high_impact_actions_blocked_or_approved": {
+          "type": "boolean"
+        }
+      }
+    },
+    "independent_red_teaming": {
+      "type": "object",
+      "properties": {
+        "completed": {
+          "type": "boolean"
+        },
+        "reviewers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "critical_findings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "staged_deployment": {
+      "type": "object",
+      "properties": {
+        "stage": {
+          "enum": [
+            "lab",
+            "closed_beta",
+            "limited_release",
+            "monitored_release",
+            "scaled_release"
+          ]
+        },
+        "limits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "live_monitoring": {
+      "type": "object",
+      "properties": {
+        "monitored_risks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "alert_owner": {
+          "type": "string"
+        }
+      }
+    },
+    "incident_response": {
+      "type": "object",
+      "properties": {
+        "playbook_ready": {
+          "type": "boolean"
+        },
+        "shutdown_tested": {
+          "type": "boolean"
+        }
+      }
+    },
+    "reauthorization": {
+      "type": "object",
+      "properties": {
+        "required_after_model_update": {
+          "type": "boolean"
+        },
+        "required_after_new_tool_access": {
+          "type": "boolean"
+        },
+        "required_after_serious_incident": {
+          "type": "boolean"
+        },
+        "next_review_date": {
+          "type": "string"
+        }
+      }
+    },
+    "decision": {
+      "enum": [
+        "approve",
+        "approve_with_limits",
+        "delay",
+        "reject",
+        "retire"
+      ]
+    }
+  }
+}

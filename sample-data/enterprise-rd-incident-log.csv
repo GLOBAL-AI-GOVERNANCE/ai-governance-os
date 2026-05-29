@@ -1,0 +1,2 @@
+Incident ID,Date Detected,System ID,Incident Type,Severity,Detection Source,Immediate Action,Logs Preserved,Harm Assessment,Notifications,Corrective Action,Reauthorization Required,Closure Status
+I-001,2026-05-27,AI-005,Prompt Injection; Truth Degradation,High,Reviewer,Freeze affected research path,Yes,Unsupported vendor recommendation entered draft research note,R&D Director; Cyber; Legal,Add adversarial-document screening and source hierarchy enforcement,Yes,Contained
