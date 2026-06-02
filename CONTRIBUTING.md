@@ -1,35 +1,44 @@
 # Contributing
 
-Global AI Governance Solutions welcomes contributions that make AI governance more practical, evidence-based, and usable.
+Thank you for contributing to AI Governance OS.
 
-## Contribution Principles
+This project exists to make AI systems more visible, owned, risk-tiered, tested, monitored, and controllable.
 
-Contributions should support the operating law:
+## Contribution Areas
 
-**No AI system moves faster than ownership, evidence, authority, and control.**
+Useful contributions include:
 
-## Useful Contributions
+- Governance templates.
+- Risk-tiering improvements.
+- Evidence and audit controls.
+- Incident response playbooks.
+- Shutdown and reauthorization workflows.
+- Vendor AI review patterns.
+- Truth and verifiability safeguards.
+- Implementation examples.
 
-- Better templates
-- Clearer checklists
-- Stronger policy language
-- Practical examples
-- Deployment approval gates
-- Incident response workflows
-- Vendor accountability language
-- Monitoring and audit trail requirements
+## Contribution Standards
 
-## Standard for Acceptance
+Contributions should be:
 
-A contribution should improve at least one of the following:
+- Practical.
+- Clear.
+- Auditable.
+- Implementation-ready.
+- Compatible with the core doctrine.
 
-- Visibility
-- Ownership
-- Risk classification
-- Evidence quality
-- Human authority
-- Control
-- Monitoring
-- Correction
-- Shutdown readiness
-- Accountability
+## Core Doctrine
+
+No owner, no deployment.  
+No inventory, no governance.  
+No evidence, no approval.  
+No shutdown path, no frontier release.  
+No major capability jump without reauthorization.
+
+## Pull Requests
+
+When submitting a pull request, explain:
+
+- What problem the contribution solves.
+- Which governance layer it improves.
+- How it supports visibility, ownership, control, monitoring, correction, or shutdown authority.

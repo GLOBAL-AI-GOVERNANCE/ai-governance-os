@@ -1,8 +1,15 @@
 # Changelog
 
-## [1.0] - 2026-06-01 — Aligned Order
+## v1.1 — AI Governance OS
 
-- Initial public release of Global AI Governance Solutions.
-- Core doctrine, 12 Governance Commandments, 9-Layer Execution Stack, and `governance-os.yaml`.
-- Complete set of practical templates, policies, and examples.
-- Operating principle established: **No trust without verification.**
+- Published deployable AI Governance OS structure.
+- Added doctrine, schemas, registers, reports, playbooks, templates, and sample data.
+- Added truth and verifiability field: `strategic_knowledge_impact_note`.
+- Added community governance files.
+- Added roadmap and flagship repository cross-link.
+
+## v1.0 — Foundation
+
+- Established the core governance doctrine.
+- Defined the master governance formula.
+- Defined minimum rules for ownership, inventory, evidence, shutdown, and reauthorization.

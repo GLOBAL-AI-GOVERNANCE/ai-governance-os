@@ -1,22 +1,27 @@
 # Security Policy
 
-## Reporting Security Issues
+## Supported Versions
 
-Do not open public issues for security vulnerabilities.
+This repository is currently maintained as the public AI Governance OS v1.1 release.
 
-Report security concerns privately to the repository maintainer.
+Security-related improvements, corrections, and governance-hardening suggestions are welcome.
+
+## Reporting a Security Issue
+
+Please do not disclose security vulnerabilities publicly before maintainers have had a chance to review them.
+
+To report a security issue, open a private communication channel with the repository owner or submit a minimal issue that does not expose sensitive details.
 
 ## Scope
 
-Security issues may include:
+Security reports may include:
 
-- Unsafe governance defaults
-- Missing controls for high-risk AI systems
-- Weak vendor accountability language
-- Insufficient sensitive data protections
-- Inadequate shutdown protocol
-- Dangerous autonomous-agent permissions
+- Vulnerabilities in governance workflow logic.
+- Unsafe default templates.
+- Weak shutdown or escalation controls.
+- Insecure handling of sensitive AI system information.
+- Gaps in vendor, data, or autonomous-agent governance.
 
-## Principle
+## Response
 
-No trust without verification.
+Maintainers will review security reports and prioritize fixes based on potential impact to responsible AI deployment, organizational accountability, and safe governance operation.
