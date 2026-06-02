@@ -1,26 +1,27 @@
 # Code of Conduct
 
-## Standard
+## Our Standard
 
-Contributors are expected to help make AI governance practical, serious, and useful.
+This project exists to support practical, accountable, and responsible AI governance.
+
+Participants are expected to communicate with professionalism, clarity, and respect.
 
 ## Expected Behavior
 
-- Be respectful
-- Be evidence-based
-- Be constructive
-- Improve clarity
-- Focus on practical governance
-- Avoid hype and fear-based claims
+- Use respectful language.
+- Focus criticism on ideas, not people.
+- Assume good faith when possible.
+- Provide evidence for claims.
+- Keep discussions aligned with responsible AI governance.
 
 ## Unacceptable Behavior
 
-- Harassment
-- Bad-faith disruption
-- Misleading claims
-- Unsafe recommendations
-- Attempts to weaken accountability controls without justification
+- Harassment or personal attacks.
+- Threats or intimidation.
+- Disruptive or bad-faith participation.
+- Sharing confidential, private, or sensitive information without authorization.
+- Promoting unsafe or irresponsible AI deployment practices.
 
-## Guiding Principle
+## Enforcement
 
-Visible. Accountable. Governable.
+Maintainers may remove comments, close issues, reject contributions, or restrict participation when conduct undermines the project’s purpose.
