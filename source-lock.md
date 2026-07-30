@@ -1,41 +1,47 @@
-# Source Lock
+# Public Source Record
 
-This file records the factual anchors used for AI Governance OS v1.1.
+**Verified:** 2026-07-29
+
+This file identifies the principal public sources supporting this repository's general governance framing. It is a source record, not a legal opinion, compliance determination, certification, or proof of implementation.
 
 ## NIST AI Risk Management Framework
 
-NIST AI RMF Core functions remain organized around Govern, Map, Measure, and Manage.
+The NIST AI Risk Management Framework Core is organized around Govern, Map, Measure, and Manage.
 
-Primary source:
-https://airc.nist.gov/airmf-resources/airmf/5-sec-core/
+Official source:
+
+- https://airc.nist.gov/airmf-resources/airmf/5-sec-core/
 
 ## NIST Center for AI Standards and Innovation
 
-NIST CAISI publicly describes work on voluntary standards, AI security, and unclassified evaluations of AI capabilities that may pose national security risks. NIST states that these evaluations focus on demonstrable risks, such as cybersecurity, biosecurity, and chemical weapons.
+NIST CAISI publishes work concerning AI standards, measurement, evaluation, and security.
 
-Primary source:
-https://www.nist.gov/caisi
+Official source:
 
-## EU AI Act Timeline
+- https://www.nist.gov/caisi
 
-The European Commission states that the AI Act entered into force on 1 August 2024 and is generally fully applicable on 2 August 2026, with exceptions and staggered provisions. The Commission also lists general-purpose AI obligations applying from 2 August 2025.
+## European Union AI rules
 
-Primary sources:
-https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai
-https://ai-act-service-desk.ec.europa.eu/en/ai-act/timeline/timeline-implementation-eu-ai-act
+Regulation (EU) 2024/1689 establishes harmonised rules on artificial intelligence and entered into force on 1 August 2024.
 
-## Digital Omnibus Planning Note
+Regulation (EU) 2026/1744, the Digital Omnibus on AI, is an in-force regulation dated 8 July 2026 and published in the Official Journal on 24 July 2026. It sets 2 December 2027 as the application date for Chapter III, Sections 1, 2, and 3 for high-risk AI systems under Article 6(2) and Annex III, and 2 August 2028 for high-risk AI systems under Article 6(1) and Annex I.
 
-Legal reporting on the 7 May 2026 provisional political agreement indicates proposed high-risk AI obligation deferrals: 2 December 2027 for stand-alone Annex III systems and 2 August 2028 for Annex I embedded product systems. Treat these as a planning baseline while noting formal adoption and Official Journal publication status.
+Official sources:
 
-Secondary legal reporting:
-https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/
-https://www.whitecase.com/insight-alert/eu-agrees-digital-omnibus-deal-simplify-ai-rules
+- AI Act: https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng
+- Digital Omnibus on AI: https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng
 
 ## U.S. AI Action Plan
 
-The White House describes Winning the AI Race: America's AI Action Plan as a strategy connected to human flourishing, economic competitiveness, and national security.
+The White House describes *Winning the AI Race: America's AI Action Plan* as a national strategy concerning innovation, infrastructure, international leadership, economic competitiveness, and national security.
 
-Primary sources:
-https://www.whitehouse.gov/releases/2025/07/white-house-unveils-americas-ai-action-plan/
-https://www.ai.gov/action-plan
+Official sources:
+
+- https://www.whitehouse.gov/releases/2025/07/white-house-unveils-americas-ai-action-plan/
+- https://www.ai.gov/action-plan
+
+## Evidence boundary
+
+These sources support general public framing only. They do not establish that an organization or AI system complies with law, operates controls effectively, is safe, or is authorized for deployment. Verify current law, standards, policies, and institutional requirements before consequential use.
+
+This repository does not provide legal advice.
