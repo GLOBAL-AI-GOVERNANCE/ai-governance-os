@@ -1,0 +1,14 @@
+{
+  "authority_effect": "NONE",
+  "authority_refs": [],
+  "configuration_ref": null,
+  "evidence_refs": [],
+  "handoff_id": "handoff.synthetic.foundation.001",
+  "reference_only": true,
+  "schema_version": "1.0.0",
+  "source_artifact_id": "foundation.synthetic.001",
+  "source_artifact_type": "FOUNDATIONAL_REFERENCE",
+  "source_repository": "ai-governance-os",
+  "source_version": "v1.1",
+  "target_repository": "global-ai-governance-toolkit"
+}
