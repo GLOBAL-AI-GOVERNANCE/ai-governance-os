@@ -1,0 +1,75 @@
+{
+  "$id": "https://github.com/GLOBAL-AI-GOVERNANCE/ai-governance-os/schemas/portfolio-handoff-reference.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_effect": {
+      "const": "NONE"
+    },
+    "authority_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "configuration_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "handoff_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "reference_only": {
+      "const": true
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "source_artifact_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_artifact_type": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_repository": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "source_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "target_repository": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "handoff_id",
+    "source_repository",
+    "target_repository",
+    "source_artifact_type",
+    "source_artifact_id",
+    "source_version",
+    "reference_only",
+    "authority_effect"
+  ],
+  "title": "Portfolio Handoff Reference",
+  "type": "object"
+}

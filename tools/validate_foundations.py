@@ -12,6 +12,8 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
+INTEROP_SCHEMA = ROOT / "schemas" / "portfolio-handoff-reference.schema.json"
+INTEROP_EXAMPLE = ROOT / "sample-data" / "portfolio-handoff-reference.json"
 
 REQUIRED_HEADINGS = (
     "# AI Governance Foundations",
@@ -174,6 +176,25 @@ def validate_markdown_links(files: list[Path]) -> None:
                 )
 
 
+
+def validate_portfolio_handoff() -> None:
+    schema = json.loads(INTEROP_SCHEMA.read_text(encoding="utf-8"))
+    example = json.loads(INTEROP_EXAMPLE.read_text(encoding="utf-8"))
+
+    if schema.get("properties", {}).get("reference_only", {}).get("const") is not True:
+        fail("portfolio handoff schema must remain reference-only")
+    if schema.get("properties", {}).get("authority_effect", {}).get("const") != "NONE":
+        fail("portfolio handoff schema must have no authority effect")
+
+    required = set(schema.get("required", []))
+    if not required.issubset(example):
+        fail("portfolio handoff example is missing required fields")
+    if not set(example).issubset(schema.get("properties", {})):
+        fail("portfolio handoff example contains unsupported fields")
+    if example.get("reference_only") is not True or example.get("authority_effect") != "NONE":
+        fail("portfolio handoff example exceeds its reference-only boundary")
+
+
 def validate_hygiene(files: list[Path]) -> None:
     for path in files:
         relative = path.relative_to(ROOT)
@@ -193,6 +214,7 @@ def main() -> None:
     validate_readme(text)
     validate_json(files)
     validate_markdown_links(files)
+    validate_portfolio_handoff()
     validate_hygiene(files)
 
     print(
