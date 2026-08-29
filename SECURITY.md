@@ -2,9 +2,9 @@
 
 ## Supported Versions
 
-This repository is currently maintained as the public AI Governance OS v1.1 release.
+AI Governance Foundations is maintained as a foundational public reference. The historical public release remains AI Governance OS v1.1; the current repository name does not relabel or reissue that release.
 
-Security-related improvements, corrections, and governance-hardening suggestions are welcome.
+Security-related improvements, corrections, and governance-hardening suggestions for current development or the preserved v1.1 artifacts are welcome.
 
 ## Reporting a Security Issue
 

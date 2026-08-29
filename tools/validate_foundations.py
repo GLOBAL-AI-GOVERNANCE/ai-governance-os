@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
 INTEROP_SCHEMA = ROOT / "schemas" / "portfolio-handoff-reference.schema.json"
 INTEROP_EXAMPLE = ROOT / "sample-data" / "portfolio-handoff-reference.json"
+CONTRIBUTING = ROOT / "CONTRIBUTING.md"
+SECURITY = ROOT / "SECURITY.md"
 
 REQUIRED_HEADINGS = (
     "# AI Governance Foundations",
@@ -38,6 +40,7 @@ REQUIRED_PHRASES = (
     "Humans retain authority",
     "not prove that an organization implemented them",
     "current authoritative sources",
+    "global-ai-governance-toolkit/tree/v2.1.0",
 )
 
 FORBIDDEN_PHRASES = (
@@ -107,6 +110,20 @@ def validate_readme(text: str) -> None:
     for number, line in enumerate(text.splitlines(), start=1):
         if line.rstrip() != line:
             fail(f"README has trailing whitespace on line {number}")
+
+
+def validate_public_terminology() -> None:
+    contributing = CONTRIBUTING.read_text(encoding="utf-8-sig")
+    security = SECURITY.read_text(encoding="utf-8-sig")
+    if "contributing to AI Governance Foundations" not in contributing:
+        fail("CONTRIBUTING does not use the current Foundations identity")
+    for phrase in (
+        "historical AI Governance OS v1.1 release and provenance",
+        "historical public release remains AI Governance OS v1.1",
+        "does not relabel or reissue that release",
+    ):
+        if phrase not in contributing + security:
+            fail(f"v1.1 provenance boundary is missing: {phrase}")
 
 
 def validate_json(files: list[Path]) -> None:
@@ -212,6 +229,7 @@ def main() -> None:
     text = README.read_text(encoding="utf-8-sig")
 
     validate_readme(text)
+    validate_public_terminology()
     validate_json(files)
     validate_markdown_links(files)
     validate_portfolio_handoff()

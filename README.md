@@ -10,7 +10,7 @@ It is not the current operational flagship.
 
 ## Start Here
 
-For the current end-to-end workflow, begin with the [Global AI Governance Toolkit](https://github.com/GLOBAL-AI-GOVERNANCE/global-ai-governance-toolkit).
+For the current released end-to-end workflow, begin with the [Global AI Governance Toolkit v2.1.0](https://github.com/GLOBAL-AI-GOVERNANCE/global-ai-governance-toolkit/tree/v2.1.0).
 
 The toolkit converts an authorized AI system inventory record into schema validation, preliminary risk classification, policy-driven findings, an executive governance report, and a reproducible AI Governance Decision Pack for human review and decision.
 
