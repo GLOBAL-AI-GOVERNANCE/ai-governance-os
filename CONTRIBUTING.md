@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for contributing to AI Governance OS.
+Thank you for contributing to AI Governance Foundations. The repository retains the historical AI Governance OS v1.1 release and provenance.
 
 This project exists to make AI systems more visible, owned, risk-tiered, tested, monitored, and controllable.
 
