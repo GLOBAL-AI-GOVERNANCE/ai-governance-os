@@ -40,10 +40,12 @@ REQUIRED_PHRASES = (
     "Humans retain authority",
     "not prove that an organization implemented them",
     "current authoritative sources",
-    "global-ai-governance-toolkit/tree/v2.1.0",
+    "https://github.com/GLOBAL-AI-GOVERNANCE/global-ai-governance-toolkit",
+    "current tagged release:",
 )
 
 FORBIDDEN_PHRASES = (
+    "global-ai-governance-toolkit/tree/v2.1.0",
     "global-ai-governance-solutions",
     "deployable governance system",
     "Flagship repository:",
