@@ -8,9 +8,15 @@ Security-related improvements, corrections, and governance-hardening suggestions
 
 ## Reporting a Security Issue
 
-Please do not disclose security vulnerabilities publicly before maintainers have had a chance to review them.
+Do not open a public issue for a suspected vulnerability.
 
-To report a security issue, open a private communication channel with the repository owner or submit a minimal issue that does not expose sensitive details.
+Use GitHub Private Vulnerability Reporting:
+
+`https://github.com/GLOBAL-AI-GOVERNANCE/ai-governance-os/security/advisories/new`
+
+Include the affected version or commit, impact, reproduction steps, expected and observed behavior, and suggested remediation when available.
+
+Do not include secrets, personal data, regulated data, customer information, production credentials, or sensitive exploit material beyond what is necessary for responsible review.
 
 ## Scope
 
