@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evaluation-basis.schema.json",
+  "title": "Evaluation Basis",
+  "description": "Reference-only binding of subject, dataset, model, configuration, and evaluation evidence. Authority effect remains NONE. Material change invalidates prior evaluation as current assurance.",
+  "type": "object",
+  "properties": {
+    "evaluation_id": { "type": "string", "minLength": 1 },
+    "subject_id": { "type": "string", "minLength": 1 },
+    "dataset_id": { "type": "string", "minLength": 1 },
+    "dataset_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "model_id": { "type": "string", "minLength": 1 },
+    "model_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "configuration_digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "context_boundary": { "type": "string", "minLength": 1 },
+    "evaluation_outcome": { "type": "string", "minLength": 1 },
+    "evidence_provenance": {
+      "type": "object",
+      "properties": {
+        "source": { "type": "string", "minLength": 1 },
+        "timestamp": { "type": "string", "minLength": 1 },
+        "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+      },
+      "required": ["source", "timestamp", "digest"],
+      "additionalProperties": false
+    },
+    "invalidation_triggers": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "reference_only": { "type": "boolean", "const": true },
+    "authority_effect": { "type": "string", "const": "NONE" }
+  },
+  "required": [
+    "evaluation_id",
+    "subject_id",
+    "dataset_id",
+    "dataset_digest",
+    "model_id",
+    "model_digest",
+    "configuration_digest",
+    "context_boundary",
+    "evaluation_outcome",
+    "evidence_provenance",
+    "invalidation_triggers",
+    "reference_only",
+    "authority_effect"
+  ],
+  "additionalProperties": false
+}
