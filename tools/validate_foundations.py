@@ -306,6 +306,14 @@ def main() -> None:
     validate_markdown_links(files)
     validate_portfolio_handoff()
     validate_assurance_context_binding()
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "validate_succession_evidence", ROOT / "tools" / "validate_succession_evidence.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    sample = json.loads((ROOT / "sample-data" / "succession-evidence-record.json").read_text(encoding="utf-8"))
+    module.validate_succession_evidence(sample)
     validate_hygiene(files)
 
     print(

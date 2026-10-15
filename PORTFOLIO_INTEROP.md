@@ -25,3 +25,7 @@ The `assurance-context-binding` schema provides a reference-only binding of subj
 It records material-change invalidation triggers. It does not implement runtime change detection or automatic revocation. `authority_effect` remains `NONE`.
 
 The synthetic fixture in `sample-data/assurance-context-binding.json` uses deterministic SHA-256 digests of documented synthetic bytes. Hash values do not establish authenticity of any external system. The fixture is illustrative only and does not establish operational readiness.
+
+## Succession Evidence Record
+
+The `succession-evidence-record` schema is a foundational reference record for a bounded capability-transfer exercise. It is owned by AI Governance Foundations. A declared SUCCESS is accepted only when restoration, reproduction, fallback, recovery, authority-boundary explanation, resumption, support ownership, and the absence of creator dependence and undocumented dependencies are all recorded. The record remains `reference_only: true`, `human_review_required: true`, and `authority_effect: NONE`. It does not authorize use, certify a team, or establish operational readiness.

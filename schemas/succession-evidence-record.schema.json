@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "succession-evidence-record.schema.json",
+  "title": "Succession Evidence Record",
+  "description": "Reference-only record of a bounded capability-transfer exercise. A successful exercise does not authorize use, certify a team, or establish operational readiness. authority_effect remains NONE.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0.0"},
+    "record_id": {"type": "string", "minLength": 1},
+    "subject_id": {"type": "string", "minLength": 1},
+    "configuration_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "environment_boundary": {"type": "string", "minLength": 1},
+    "evaluated_at": {"type": "string", "minLength": 1},
+    "successor_team_ref": {"type": "string", "minLength": 1},
+    "handoff_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["reference", "digest"],
+        "properties": {
+          "reference": {"type": "string", "minLength": 1},
+          "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+        }
+      }
+    },
+    "configuration_restored": {"type": "boolean"},
+    "evaluation_reproduced": {"type": "boolean"},
+    "fallback_demonstrated": {"type": "boolean"},
+    "recovery_demonstrated": {"type": "boolean"},
+    "authority_boundary_explained": {"type": "boolean"},
+    "capability_resumed": {"type": "boolean"},
+    "creator_assistance_required": {"type": "boolean"},
+    "undocumented_dependencies_found": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "support_owner": {"type": "string"},
+    "support_commitment_ref": {"type": "string"},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "outcome": {"type": "string", "enum": ["SUCCESS", "PARTIAL", "FAILED"]},
+    "reference_only": {"type": "boolean", "const": true},
+    "human_review_required": {"type": "boolean", "const": true},
+    "authority_effect": {"type": "string", "const": "NONE"}
+  },
+  "required": [
+    "schema_version", "record_id", "subject_id", "configuration_digest", "environment_boundary",
+    "evaluated_at", "successor_team_ref", "handoff_artifacts", "configuration_restored",
+    "evaluation_reproduced", "fallback_demonstrated", "recovery_demonstrated",
+    "authority_boundary_explained", "capability_resumed", "creator_assistance_required",
+    "undocumented_dependencies_found", "support_owner", "support_commitment_ref", "limitations",
+    "outcome", "reference_only", "human_review_required", "authority_effect"
+  ]
+}
