@@ -1,6 +1,6 @@
 # Public Source Record
 
-**Verified:** 2026-07-29
+**Verified:** 2026-10-14
 
 This file identifies the principal public sources supporting this repository's general governance framing. It is a source record, not a legal opinion, compliance determination, certification, or proof of implementation.
 
@@ -39,6 +39,31 @@ Official sources:
 
 - https://www.whitehouse.gov/releases/2025/07/white-house-unveils-americas-ai-action-plan/
 - https://www.ai.gov/action-plan
+
+## New York City AI hearing and October 2026 proposals
+
+The New York City Council held a Committee of the Whole hearing on artificial intelligence risks on 5 October 2026.
+
+Official sources:
+
+- Hearing record: https://legistar.council.nyc.gov/MeetingDetail.aspx?GUID=325D66DF-B99B-4C9A-8061-6EC9907142F2&ID=1445976&Search=
+- Council release: https://council.nyc.gov/press/2026/10/05/3278/
+
+### Proposed third-party validation and shutdown capability
+
+Official record identifies the proposal as Int. 1100-2026 after introduction on 8 October 2026. It concerns third-party validation, human-operable shutdown capability, validator disclosure of interests, deployment-readiness findings, rulemaking, and civil penalties.
+
+Official source:
+
+- https://legistar.council.nyc.gov/LegislationDetail.aspx?GUID=A927E066-C669-4F66-8E5A-4B610FA321E5&ID=8239233&Options=&Search=
+
+This design uses those ideas as a policy case study. It does not claim that the proposal is enacted law.
+
+### Proposed whistleblower protections
+
+Official record identifies a companion proposal concerning protections for certain City and contractor personnel reporting artificial-intelligence-related conduct they know or reasonably believe presents a substantial and specific public-health or public-safety risk.
+
+This repository must never invite confidential material into public Issues, pull requests, fixtures, or examples.
 
 ## Evidence boundary
 
