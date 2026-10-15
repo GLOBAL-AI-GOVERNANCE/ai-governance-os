@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "assurance-context-binding.schema.json",
+  "title": "Assurance Context Binding",
+  "description": "Reference-only binding of subject, configuration, and evidence context. Authority effect remains NONE. Material change invalidates prior binding.",
+  "type": "object",
+  "properties": {
+    "binding_id": { "type": "string" },
+    "subject_id": { "type": "string" },
+    "configuration_digest": { "type": "string" },
+    "context_boundary": { "type": "string" },
+    "evidence_provenance": {
+      "type": "object",
+      "properties": {
+        "source": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "digest": { "type": "string" }
+      },
+      "required": ["source", "timestamp"]
+    },
+    "validity_from": { "type": "string" },
+    "invalidation_triggers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reference_only": { "type": "boolean", "const": true },
+    "authority_effect": { "type": "string", "const": "NONE" }
+  },
+  "required": ["binding_id", "subject_id", "configuration_digest", "authority_effect", "reference_only"],
+  "additionalProperties": false
+}
