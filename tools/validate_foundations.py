@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
 INTEROP_SCHEMA = ROOT / "schemas" / "portfolio-handoff-reference.schema.json"
 INTEROP_EXAMPLE = ROOT / "sample-data" / "portfolio-handoff-reference.json"
+BINDING_SCHEMA = ROOT / "schemas" / "assurance-context-binding.schema.json"
+BINDING_EXAMPLE = ROOT / "sample-data" / "assurance-context-binding.json"
 CONTRIBUTING = ROOT / "CONTRIBUTING.md"
 SECURITY = ROOT / "SECURITY.md"
 
@@ -58,6 +60,7 @@ FENCED_CODE = re.compile(
     r"```.*?```|~~~.*?~~~",
     re.DOTALL,
 )
+SHA256_PATTERN = re.compile(r"^sha256:[a-f0-9]{64}$")
 
 
 def fail(message: str) -> None:
@@ -195,7 +198,6 @@ def validate_markdown_links(files: list[Path]) -> None:
                 )
 
 
-
 def validate_portfolio_handoff() -> None:
     schema = json.loads(INTEROP_SCHEMA.read_text(encoding="utf-8"))
     example = json.loads(INTEROP_EXAMPLE.read_text(encoding="utf-8"))
@@ -212,6 +214,74 @@ def validate_portfolio_handoff() -> None:
         fail("portfolio handoff example contains unsupported fields")
     if example.get("reference_only") is not True or example.get("authority_effect") != "NONE":
         fail("portfolio handoff example exceeds its reference-only boundary")
+
+
+def _validate_binding_object(obj: dict, schema: dict) -> None:
+    """Raise SystemExit if the binding object fails schema-conformance checks."""
+    required = set(schema.get("required", []))
+    if not required.issubset(obj):
+        raise SystemExit("missing required fields")
+    props = schema.get("properties", {})
+    if not set(obj).issubset(props):
+        raise SystemExit("unsupported top-level fields")
+    if obj.get("reference_only") is not True:
+        raise SystemExit("reference_only must be true")
+    if obj.get("authority_effect") != "NONE":
+        raise SystemExit("authority_effect must be NONE")
+    if not SHA256_PATTERN.match(obj.get("configuration_digest", "")):
+        raise SystemExit("configuration_digest not valid sha256")
+    prov = obj.get("evidence_provenance")
+    if not isinstance(prov, dict):
+        raise SystemExit("evidence_provenance must be object")
+    if not set(prov).issubset(props.get("evidence_provenance", {}).get("properties", {})):
+        raise SystemExit("unsupported nested provenance fields")
+    if not prov.get("source") or not prov.get("timestamp") or not prov.get("digest"):
+        raise SystemExit("incomplete evidence provenance")
+    if not SHA256_PATTERN.match(prov.get("digest", "")):
+        raise SystemExit("evidence digest not valid sha256")
+    triggers = obj.get("invalidation_triggers", [])
+    if not isinstance(triggers, list) or len(triggers) < 1 or any(not isinstance(t, str) or not t for t in triggers):
+        raise SystemExit("invalidation_triggers must be nonempty list of strings")
+    if not obj.get("context_boundary") or not obj.get("validity_from") or not obj.get("binding_id") or not obj.get("subject_id"):
+        raise SystemExit("missing subject, context, binding id, or validity")
+
+
+def validate_assurance_context_binding() -> None:
+    schema = json.loads(BINDING_SCHEMA.read_text(encoding="utf-8"))
+    example = json.loads(BINDING_EXAMPLE.read_text(encoding="utf-8"))
+
+    if schema.get("properties", {}).get("reference_only", {}).get("const") is not True:
+        fail("assurance context binding schema must remain reference-only")
+    if schema.get("properties", {}).get("authority_effect", {}).get("const") != "NONE":
+        fail("assurance context binding schema must have no authority effect")
+
+    # Positive path: shared validator must accept the fixture
+    try:
+        _validate_binding_object(example, schema)
+    except SystemExit as exc:
+        fail(f"positive assurance context binding fixture rejected: {exc}")
+
+    # Negative paths: shared validator must reject each mutation
+    negatives = [
+        ("non-NONE authority", lambda d: d.update({"authority_effect": "AUTHORIZE"})),
+        ("false reference_only", lambda d: d.update({"reference_only": False})),
+        ("empty triggers", lambda d: d.update({"invalidation_triggers": []})),
+        ("malformed digest", lambda d: d.update({"configuration_digest": "not-a-digest"})),
+        ("missing subject", lambda d: d.pop("subject_id", None)),
+        ("missing context", lambda d: d.pop("context_boundary", None)),
+        ("missing provenance", lambda d: d.pop("evidence_provenance", None)),
+        ("unsupported field", lambda d: d.update({"extra_field": "bad"})),
+    ]
+    for name, mutator in negatives:
+        bad = json.loads(json.dumps(example))  # deep copy
+        mutator(bad)
+        rejected = False
+        try:
+            _validate_binding_object(bad, schema)
+        except SystemExit:
+            rejected = True
+        if not rejected:
+            fail(f"negative test did not reject: {name}")
 
 
 def validate_hygiene(files: list[Path]) -> None:
@@ -235,12 +305,13 @@ def main() -> None:
     validate_json(files)
     validate_markdown_links(files)
     validate_portfolio_handoff()
+    validate_assurance_context_binding()
     validate_hygiene(files)
 
     print(
         "Foundations validation passed: "
         f"{len(files)} repository files checked; "
-        "positioning, JSON, links, and hygiene verified."
+        "positioning, JSON, links, handoff, assurance binding (positive+negative), and hygiene verified."
     )
 
 
