@@ -82,6 +82,10 @@ class MaterialChangeTests(unittest.TestCase):
             ({**PRIOR, "dataset_digest": "sha256:short"}, "malformed prior digest"),
             ({**PRIOR, "extra": "bad"}, "unsupported field"),
             ({**PRIOR, "evidence_provenance": {**PRIOR["evidence_provenance"], "extra": "bad"}}, "extra provenance field"),
+            ({**PRIOR, "evaluation_id": ""}, "empty evaluation_id"),
+            ({**PRIOR, "subject_id": ""}, "empty subject_id"),
+            ({**PRIOR, "evaluation_outcome": ""}, "empty outcome"),
+            ({**PRIOR, "evidence_provenance": {**PRIOR["evidence_provenance"], "source": 123}}, "non-string provenance source"),
         ]
         for prior, label in cases:
             with self.subTest(label=label):
