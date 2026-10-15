@@ -1,6 +1,6 @@
 # Public Source Record
 
-**Verified:** 2026-07-29
+**Verified:** 2026-10-14
 
 This file identifies the principal public sources supporting this repository's general governance framing. It is a source record, not a legal opinion, compliance determination, certification, or proof of implementation.
 
@@ -39,6 +39,12 @@ Official sources:
 
 - https://www.whitehouse.gov/releases/2025/07/white-house-unveils-americas-ai-action-plan/
 - https://www.ai.gov/action-plan
+
+## Additional public records (2026)
+
+Official public records of a municipal hearing and associated proposed measures concerning independent validation, human-operable shutdown capability, and protected reporting were reviewed. Proposed status is preserved. These records inform design only and do not establish enacted requirements.
+
+Official sources are available through standard legislative information systems. No confidential material is invited or accepted in public Issues, pull requests, fixtures, or examples.
 
 ## Evidence boundary
 
