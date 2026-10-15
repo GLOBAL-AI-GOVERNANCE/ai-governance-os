@@ -1,0 +1,19 @@
+{
+  "binding_id": "acb-example-001",
+  "subject_id": "synthetic-system-alpha",
+  "configuration_digest": "sha256:exampledigestplaceholder",
+  "context_boundary": "bounded synthetic evaluation environment",
+  "evidence_provenance": {
+    "source": "synthetic evaluation run",
+    "timestamp": "2026-10-15T00:00:00Z",
+    "digest": "sha256:evidenceplaceholder"
+  },
+  "validity_from": "2026-10-15T00:00:00Z",
+  "invalidation_triggers": [
+    "configuration change",
+    "evidence source change",
+    "context boundary change"
+  ],
+  "reference_only": true,
+  "authority_effect": "NONE"
+}
