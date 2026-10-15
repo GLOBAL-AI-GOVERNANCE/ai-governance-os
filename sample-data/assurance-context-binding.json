@@ -1,12 +1,12 @@
 {
   "binding_id": "acb-example-001",
   "subject_id": "synthetic-system-alpha",
-  "configuration_digest": "sha256:exampledigestplaceholder",
+  "configuration_digest": "sha256:9c65e5fc67d0b78e02f25fdc181add45eb98c4c1bf8cf461a1709c534b980504",
   "context_boundary": "bounded synthetic evaluation environment",
   "evidence_provenance": {
     "source": "synthetic evaluation run",
     "timestamp": "2026-10-15T00:00:00Z",
-    "digest": "sha256:evidenceplaceholder"
+    "digest": "sha256:7b0cf66aaf4a68d6cbff76ba5d02b3de81ee5a7cb103d65cb7c8ede037c03107"
   },
   "validity_from": "2026-10-15T00:00:00Z",
   "invalidation_triggers": [
