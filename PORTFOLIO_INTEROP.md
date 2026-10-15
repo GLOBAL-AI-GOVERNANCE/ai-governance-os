@@ -28,7 +28,7 @@ The synthetic fixture in `sample-data/assurance-context-binding.json` uses deter
 
 ## Succession Evidence Record
 
-The `succession-evidence-record` schema is a foundational reference record for a bounded capability-transfer exercise. It is owned by AI Governance Foundations. A declared SUCCESS is accepted only when restoration, reproduction, fallback, recovery, authority-boundary explanation, resumption, support ownership, and the absence of creator dependence and undocumented dependencies are all recorded. The record remains `reference_only: true`, `human_review_required: true`, and `authority_effect: NONE`. It does not authorize use, certify a team, or establish operational readiness.
+The `succession-evidence-record` schema is a foundational reference record for a bounded capability-transfer exercise. It is owned by AI Governance Foundations. JSON Schema validates structure. `tools/validate_succession_evidence.py` enforces semantic outcome constraints, so a structurally valid record is not a SUCCESS by itself. A declared SUCCESS is accepted only when restoration, reproduction, fallback, recovery, authority-boundary explanation, resumption, support ownership, and the absence of creator dependence and undocumented dependencies are all recorded. The record remains `reference_only: true`, `human_review_required: true`, and `authority_effect: NONE`. It does not authorize use, certify a team, or establish operational readiness. The synthetic FAILED fixture is `sample-data/succession-evidence-failed.json`.
 
 ## Assurance kernel
 

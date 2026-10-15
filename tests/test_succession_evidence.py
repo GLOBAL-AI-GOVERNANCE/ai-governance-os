@@ -9,6 +9,7 @@ from tools.validate_succession_evidence import TIMESTAMP, ContractError, validat
 
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLE = json.loads((ROOT / "sample-data" / "succession-evidence-record.json").read_text(encoding="utf-8"))
+FAILED = json.loads((ROOT / "sample-data" / "succession-evidence-failed.json").read_text(encoding="utf-8"))
 
 
 class SuccessionEvidenceTests(unittest.TestCase):
@@ -16,6 +17,16 @@ class SuccessionEvidenceTests(unittest.TestCase):
         result = validate_succession_evidence(SAMPLE)
         self.assertTrue(result["valid"])
         self.assertEqual(result["authority_effect"], "NONE")
+
+    def test_failed_fixture_is_failed_not_success(self) -> None:
+        result = validate_succession_evidence(FAILED)
+        self.assertEqual(result["outcome"], "FAILED")
+        self.assertNotEqual(result["outcome"], "SUCCESS")
+        self.assertEqual(result["authority_effect"], "NONE")
+        self.assertTrue(result["reference_only"])
+        promoted = {**FAILED, "outcome": "SUCCESS"}
+        with self.assertRaises(ContractError):
+            validate_succession_evidence(promoted)
 
     def test_partial_and_failed_preserve_incomplete_state(self) -> None:
         partial = {**SAMPLE, "outcome": "PARTIAL", "recovery_demonstrated": False}
