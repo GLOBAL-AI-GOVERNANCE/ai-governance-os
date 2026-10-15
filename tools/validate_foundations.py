@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
 INTEROP_SCHEMA = ROOT / "schemas" / "portfolio-handoff-reference.schema.json"
 INTEROP_EXAMPLE = ROOT / "sample-data" / "portfolio-handoff-reference.json"
+BINDING_SCHEMA = ROOT / "schemas" / "assurance-context-binding.schema.json"
+BINDING_EXAMPLE = ROOT / "sample-data" / "assurance-context-binding.json"
 CONTRIBUTING = ROOT / "CONTRIBUTING.md"
 SECURITY = ROOT / "SECURITY.md"
 
@@ -58,6 +60,7 @@ FENCED_CODE = re.compile(
     r"```.*?```|~~~.*?~~~",
     re.DOTALL,
 )
+SHA256_PATTERN = re.compile(r"^sha256:[a-f0-9]{64}$")
 
 
 def fail(message: str) -> None:
@@ -195,7 +198,6 @@ def validate_markdown_links(files: list[Path]) -> None:
                 )
 
 
-
 def validate_portfolio_handoff() -> None:
     schema = json.loads(INTEROP_SCHEMA.read_text(encoding="utf-8"))
     example = json.loads(INTEROP_EXAMPLE.read_text(encoding="utf-8"))
@@ -212,6 +214,57 @@ def validate_portfolio_handoff() -> None:
         fail("portfolio handoff example contains unsupported fields")
     if example.get("reference_only") is not True or example.get("authority_effect") != "NONE":
         fail("portfolio handoff example exceeds its reference-only boundary")
+
+
+def validate_assurance_context_binding() -> None:
+    schema = json.loads(BINDING_SCHEMA.read_text(encoding="utf-8"))
+    example = json.loads(BINDING_EXAMPLE.read_text(encoding="utf-8"))
+
+    if schema.get("properties", {}).get("reference_only", {}).get("const") is not True:
+        fail("assurance context binding schema must remain reference-only")
+    if schema.get("properties", {}).get("authority_effect", {}).get("const") != "NONE":
+        fail("assurance context binding schema must have no authority effect")
+
+    required = set(schema.get("required", []))
+    if not required.issubset(example):
+        fail("assurance context binding example is missing required fields")
+    if not set(example).issubset(schema.get("properties", {})):
+        fail("assurance context binding example contains unsupported fields")
+    if example.get("reference_only") is not True or example.get("authority_effect") != "NONE":
+        fail("assurance context binding example exceeds its reference-only boundary")
+
+    if not SHA256_PATTERN.match(example.get("configuration_digest", "")):
+        fail("assurance context binding configuration_digest is not a valid sha256")
+    prov = example.get("evidence_provenance", {})
+    if not isinstance(prov, dict):
+        fail("assurance context binding evidence_provenance must be an object")
+    if not SHA256_PATTERN.match(prov.get("digest", "")):
+        fail("assurance context binding evidence digest is not a valid sha256")
+    if not prov.get("source") or not prov.get("timestamp"):
+        fail("assurance context binding evidence provenance is incomplete")
+    triggers = example.get("invalidation_triggers", [])
+    if not isinstance(triggers, list) or len(triggers) < 1:
+        fail("assurance context binding must have nonempty invalidation triggers")
+    if not example.get("context_boundary") or not example.get("validity_from"):
+        fail("assurance context binding missing context boundary or validity start")
+
+    # Negative path checks (in-memory mutations of a copy)
+    bad = dict(example)
+    bad["authority_effect"] = "AUTHORIZE"
+    if bad.get("authority_effect") == "NONE":
+        fail("negative test failed: non-NONE authority should be detectable")
+    bad = dict(example)
+    bad["reference_only"] = False
+    if bad.get("reference_only") is True:
+        fail("negative test failed: non-true reference_only should be detectable")
+    bad = dict(example)
+    bad["invalidation_triggers"] = []
+    if len(bad.get("invalidation_triggers", [])) > 0:
+        fail("negative test failed: empty triggers should be detectable")
+    bad = dict(example)
+    bad["configuration_digest"] = "not-a-digest"
+    if SHA256_PATTERN.match(bad["configuration_digest"]):
+        fail("negative test failed: malformed digest should be detectable")
 
 
 def validate_hygiene(files: list[Path]) -> None:
@@ -235,12 +288,13 @@ def main() -> None:
     validate_json(files)
     validate_markdown_links(files)
     validate_portfolio_handoff()
+    validate_assurance_context_binding()
     validate_hygiene(files)
 
     print(
         "Foundations validation passed: "
         f"{len(files)} repository files checked; "
-        "positioning, JSON, links, and hygiene verified."
+        "positioning, JSON, links, handoff, assurance binding, and hygiene verified."
     )
 
 
