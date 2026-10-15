@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0.0",
+  "event_id": "drift-synthetic-001",
+  "subject_id": "synthetic-subject-alpha",
+  "configuration_digest": "sha256:abababababababababababababababababababababababababababababababab",
+  "drift_type": "DATA",
+  "detected_at": "2026-10-15T00:00:00Z",
+  "detector_ref": "synthetic-detector",
+  "material": false,
+  "reassessment_required": false,
+  "limitations": [
+    "detection is declared, not operational monitoring"
+  ],
+  "reference_only": true,
+  "authority_effect": "NONE"
+}

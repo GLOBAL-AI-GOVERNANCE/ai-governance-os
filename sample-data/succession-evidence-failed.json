@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "record_id": "succession-synthetic-failed-001",
+  "subject_id": "synthetic-capability-alpha",
+  "configuration_digest": "sha256:2b1900cb48cdd75c750cad9cd03620fd34162af8fe45dbc2161ebbbb91e2c89d",
+  "environment_boundary": "bounded synthetic evaluation environment",
+  "evaluated_at": "2026-10-15T00:00:00Z",
+  "successor_team_ref": "synthetic-successor-team",
+  "handoff_artifacts": [
+    {
+      "reference": "synthetic-handoff-artifact-v1",
+      "digest": "sha256:87d5eced52c8fd49156c277f36d3463d07993c44bcfdca297d9aad1554543fa8"
+    }
+  ],
+  "configuration_restored": true,
+  "evaluation_reproduced": true,
+  "fallback_demonstrated": true,
+  "recovery_demonstrated": false,
+  "authority_boundary_explained": true,
+  "capability_resumed": false,
+  "creator_assistance_required": true,
+  "undocumented_dependencies_found": ["synthetic-undocumented-gap"],
+  "support_owner": "",
+  "support_commitment_ref": "",
+  "limitations": [
+    "Synthetic failed transfer exercise. Recovery was not demonstrated and creator assistance was required."
+  ],
+  "outcome": "FAILED",
+  "reference_only": true,
+  "human_review_required": true,
+  "authority_effect": "NONE"
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0.0",
+  "evidence_id": "evidence-synthetic-001",
+  "subject_id": "synthetic-subject-alpha",
+  "configuration_digest": "sha256:abababababababababababababababababababababababababababababababab",
+  "evidence_class": "TEST_RESULT",
+  "source_ref": "synthetic-source",
+  "provenance": {
+    "source": "synthetic-observer",
+    "method": "bounded synthetic observation",
+    "recorded_at": "2026-10-15T00:00:00Z"
+  },
+  "observed_or_generated_at": "2026-10-15T00:00:00Z",
+  "validity": {
+    "state": "CURRENT",
+    "valid_until": "2026-12-31T00:00:00Z"
+  },
+  "artifact_digest": "sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+  "limitations": [
+    "evidence class does not imply truth"
+  ],
+  "uncertainty": "external authenticity is not claimed",
+  "supersedes": "",
+  "reference_only": true,
+  "authority_effect": "NONE"
+}

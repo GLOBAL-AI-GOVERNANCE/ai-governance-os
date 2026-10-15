@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "context_id": "context-synthetic-001",
+  "owner_ref": "synthetic-context-owner",
+  "purpose": "bounded technical review",
+  "decision_scope": "synthetic qualification review",
+  "source_refs": [
+    "synthetic-source"
+  ],
+  "authorized_users": [
+    "synthetic-reviewer"
+  ],
+  "authorized_agents": [],
+  "permitted_uses": [
+    "reference review"
+  ],
+  "prohibited_uses": [
+    "authority transfer"
+  ],
+  "sensitivity": "synthetic",
+  "retention": "retain with the subject record",
+  "exportability": "NONE",
+  "derivative_handling": "derivatives remain reference-only",
+  "freshness": "synthetic snapshot",
+  "expires_at": "2026-12-31T00:00:00Z",
+  "evidence_refs": [
+    "evidence-synthetic-001"
+  ],
+  "reference_only": true,
+  "authority_effect": "NONE"
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "model_id": "model-synthetic-001",
+  "subject_id": "synthetic-subject-alpha",
+  "configuration_digest": "sha256:abababababababababababababababababababababababababababababababab",
+  "task": "synthetic classification",
+  "model_family": "synthetic",
+  "training_run": "run-synthetic-001",
+  "dataset_refs": [
+    "dataset-synthetic-001"
+  ],
+  "features": [
+    "synthetic-feature"
+  ],
+  "preprocessing": "identity",
+  "algorithm_configuration": "synthetic-config",
+  "artifact_digest": "sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+  "environment": "synthetic environment",
+  "intended_use": "reference qualification only",
+  "prohibited_use": [
+    "deployment approval"
+  ],
+  "evaluation_ref": "evaluation-synthetic-001",
+  "calibration_thresholds": "not calibrated against operations",
+  "known_failure_modes": [
+    "distribution shift"
+  ],
+  "dependencies": [],
+  "monitoring": "not operational",
+  "drift_policy": "material drift requires reassessment",
+  "rollback": "restore the prior synthetic artifact",
+  "owner": "synthetic-owner",
+  "reference_only": true,
+  "authority_effect": "NONE"
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "reconciliation_id": "reconcile-synthetic-001",
+  "subject_id": "synthetic-subject-alpha",
+  "configuration_digest": "sha256:abababababababababababababababababababababababababababababababab",
+  "declared_snapshot_ref": "declared-synthetic-001",
+  "observed_snapshot_ref": "observed-synthetic-001",
+  "evaluated_at": "2026-10-15T00:00:00Z",
+  "outcome": "MATCH",
+  "reconciled_state": "MATCH",
+  "reassessment_required": false,
+  "limitations": [
+    "observation does not overwrite the declaration"
+  ],
+  "reference_only": true,
+  "authority_effect": "NONE"
+}

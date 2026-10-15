@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "dataset-synthetic-001",
+  "subject_id": "synthetic-subject-alpha",
+  "configuration_digest": "sha256:abababababababababababababababababababababababababababababababab",
+  "purpose": "synthetic qualification",
+  "source_provenance": "synthetic generator",
+  "window_population": "synthetic population",
+  "labels": "synthetic labels",
+  "schema_ref": "synthetic-schema",
+  "quality": "not independently measured",
+  "missingness": "none declared in the synthetic set",
+  "sampling_bias_limitations": [
+    "not a real population"
+  ],
+  "splits_leakage": "no leakage check against a real system",
+  "version_hash": "sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+  "freshness": "synthetic snapshot",
+  "owner": "synthetic-owner",
+  "reference_only": true,
+  "authority_effect": "NONE"
+}
