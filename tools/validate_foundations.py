@@ -216,6 +216,36 @@ def validate_portfolio_handoff() -> None:
         fail("portfolio handoff example exceeds its reference-only boundary")
 
 
+def _validate_binding_object(obj: dict, schema: dict) -> None:
+    """Raise SystemExit if the binding object fails schema-conformance checks."""
+    required = set(schema.get("required", []))
+    if not required.issubset(obj):
+        raise SystemExit("missing required fields")
+    props = schema.get("properties", {})
+    if not set(obj).issubset(props):
+        raise SystemExit("unsupported top-level fields")
+    if obj.get("reference_only") is not True:
+        raise SystemExit("reference_only must be true")
+    if obj.get("authority_effect") != "NONE":
+        raise SystemExit("authority_effect must be NONE")
+    if not SHA256_PATTERN.match(obj.get("configuration_digest", "")):
+        raise SystemExit("configuration_digest not valid sha256")
+    prov = obj.get("evidence_provenance")
+    if not isinstance(prov, dict):
+        raise SystemExit("evidence_provenance must be object")
+    if not set(prov).issubset(props.get("evidence_provenance", {}).get("properties", {})):
+        raise SystemExit("unsupported nested provenance fields")
+    if not prov.get("source") or not prov.get("timestamp") or not prov.get("digest"):
+        raise SystemExit("incomplete evidence provenance")
+    if not SHA256_PATTERN.match(prov.get("digest", "")):
+        raise SystemExit("evidence digest not valid sha256")
+    triggers = obj.get("invalidation_triggers", [])
+    if not isinstance(triggers, list) or len(triggers) < 1 or any(not isinstance(t, str) or not t for t in triggers):
+        raise SystemExit("invalidation_triggers must be nonempty list of strings")
+    if not obj.get("context_boundary") or not obj.get("validity_from") or not obj.get("binding_id") or not obj.get("subject_id"):
+        raise SystemExit("missing subject, context, binding id, or validity")
+
+
 def validate_assurance_context_binding() -> None:
     schema = json.loads(BINDING_SCHEMA.read_text(encoding="utf-8"))
     example = json.loads(BINDING_EXAMPLE.read_text(encoding="utf-8"))
@@ -225,46 +255,33 @@ def validate_assurance_context_binding() -> None:
     if schema.get("properties", {}).get("authority_effect", {}).get("const") != "NONE":
         fail("assurance context binding schema must have no authority effect")
 
-    required = set(schema.get("required", []))
-    if not required.issubset(example):
-        fail("assurance context binding example is missing required fields")
-    if not set(example).issubset(schema.get("properties", {})):
-        fail("assurance context binding example contains unsupported fields")
-    if example.get("reference_only") is not True or example.get("authority_effect") != "NONE":
-        fail("assurance context binding example exceeds its reference-only boundary")
+    # Positive path: shared validator must accept the fixture
+    try:
+        _validate_binding_object(example, schema)
+    except SystemExit as exc:
+        fail(f"positive assurance context binding fixture rejected: {exc}")
 
-    if not SHA256_PATTERN.match(example.get("configuration_digest", "")):
-        fail("assurance context binding configuration_digest is not a valid sha256")
-    prov = example.get("evidence_provenance", {})
-    if not isinstance(prov, dict):
-        fail("assurance context binding evidence_provenance must be an object")
-    if not SHA256_PATTERN.match(prov.get("digest", "")):
-        fail("assurance context binding evidence digest is not a valid sha256")
-    if not prov.get("source") or not prov.get("timestamp"):
-        fail("assurance context binding evidence provenance is incomplete")
-    triggers = example.get("invalidation_triggers", [])
-    if not isinstance(triggers, list) or len(triggers) < 1:
-        fail("assurance context binding must have nonempty invalidation triggers")
-    if not example.get("context_boundary") or not example.get("validity_from"):
-        fail("assurance context binding missing context boundary or validity start")
-
-    # Negative path checks (in-memory mutations of a copy)
-    bad = dict(example)
-    bad["authority_effect"] = "AUTHORIZE"
-    if bad.get("authority_effect") == "NONE":
-        fail("negative test failed: non-NONE authority should be detectable")
-    bad = dict(example)
-    bad["reference_only"] = False
-    if bad.get("reference_only") is True:
-        fail("negative test failed: non-true reference_only should be detectable")
-    bad = dict(example)
-    bad["invalidation_triggers"] = []
-    if len(bad.get("invalidation_triggers", [])) > 0:
-        fail("negative test failed: empty triggers should be detectable")
-    bad = dict(example)
-    bad["configuration_digest"] = "not-a-digest"
-    if SHA256_PATTERN.match(bad["configuration_digest"]):
-        fail("negative test failed: malformed digest should be detectable")
+    # Negative paths: shared validator must reject each mutation
+    negatives = [
+        ("non-NONE authority", lambda d: d.update({"authority_effect": "AUTHORIZE"})),
+        ("false reference_only", lambda d: d.update({"reference_only": False})),
+        ("empty triggers", lambda d: d.update({"invalidation_triggers": []})),
+        ("malformed digest", lambda d: d.update({"configuration_digest": "not-a-digest"})),
+        ("missing subject", lambda d: d.pop("subject_id", None)),
+        ("missing context", lambda d: d.pop("context_boundary", None)),
+        ("missing provenance", lambda d: d.pop("evidence_provenance", None)),
+        ("unsupported field", lambda d: d.update({"extra_field": "bad"})),
+    ]
+    for name, mutator in negatives:
+        bad = json.loads(json.dumps(example))  # deep copy
+        mutator(bad)
+        rejected = False
+        try:
+            _validate_binding_object(bad, schema)
+        except SystemExit:
+            rejected = True
+        if not rejected:
+            fail(f"negative test did not reject: {name}")
 
 
 def validate_hygiene(files: list[Path]) -> None:
@@ -294,7 +311,7 @@ def main() -> None:
     print(
         "Foundations validation passed: "
         f"{len(files)} repository files checked; "
-        "positioning, JSON, links, handoff, assurance binding, and hygiene verified."
+        "positioning, JSON, links, handoff, assurance binding (positive+negative), and hygiene verified."
     )
 
 
