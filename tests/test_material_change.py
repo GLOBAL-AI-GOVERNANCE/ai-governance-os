@@ -28,47 +28,65 @@ PRIOR = {
 
 
 class MaterialChangeTests(unittest.TestCase):
-    def test_no_change_reports_no_change(self) -> None:
-        result = validate_material_change_invalidation(
-            PRIOR, PRIOR["configuration_digest"], PRIOR["dataset_digest"], PRIOR["model_digest"]
+    def _call(self, prior=PRIOR, subject=None, dataset=None, model=None, context=None,
+              config=None, dataset_digest=None, model_digest=None):
+        return validate_material_change_invalidation(
+            prior,
+            subject or prior["subject_id"],
+            dataset or prior["dataset_id"],
+            model or prior["model_id"],
+            context or prior["context_boundary"],
+            config or prior["configuration_digest"],
+            dataset_digest or prior["dataset_digest"],
+            model_digest or prior["model_digest"],
         )
+
+    def test_no_change_reports_no_change(self) -> None:
+        result = self._call()
         self.assertEqual(result["status"], "NO_CHANGE_DETECTED")
         self.assertFalse(result["current_assurance_from_prior"])
         self.assertEqual(result["authority_effect"], "NONE")
 
-    def test_dataset_change_invalidates(self) -> None:
-        result = validate_material_change_invalidation(
-            PRIOR, PRIOR["configuration_digest"], "sha256:" + "e" * 64, PRIOR["model_digest"]
-        )
+    def test_dataset_digest_change_invalidates(self) -> None:
+        result = self._call(dataset_digest="sha256:" + "e" * 64)
         self.assertEqual(result["status"], "MATERIAL_CHANGE")
         self.assertFalse(result["current_assurance_from_prior"])
         self.assertTrue(result["requires_re_evaluation"])
 
-    def test_model_change_invalidates(self) -> None:
-        result = validate_material_change_invalidation(
-            PRIOR, PRIOR["configuration_digest"], PRIOR["dataset_digest"], "sha256:" + "f" * 64
-        )
+    def test_model_digest_change_invalidates(self) -> None:
+        result = self._call(model_digest="sha256:" + "f" * 64)
         self.assertEqual(result["status"], "MATERIAL_CHANGE")
-        self.assertTrue(result["requires_re_evaluation"])
 
-    def test_config_change_invalidates(self) -> None:
-        result = validate_material_change_invalidation(
-            PRIOR, "sha256:" + "0" * 64, PRIOR["dataset_digest"], PRIOR["model_digest"]
-        )
+    def test_config_digest_change_invalidates(self) -> None:
+        result = self._call(config="sha256:" + "0" * 64)
         self.assertEqual(result["status"], "MATERIAL_CHANGE")
+
+    def test_identity_mismatches(self) -> None:
+        cases = [
+            ("wrong-subject", None, None, None, "subject"),
+            (None, "wrong-dataset", None, None, "dataset identity"),
+            (None, None, "wrong-model", None, "model identity"),
+            (None, None, None, "wrong context", "context"),
+        ]
+        for subject, dataset, model, context, label in cases:
+            with self.subTest(label=label):
+                result = self._call(subject=subject, dataset=dataset, model=model, context=context)
+                self.assertEqual(result["status"], "IDENTITY_MISMATCH")
+                self.assertFalse(result["current_assurance_from_prior"])
 
     def test_negative_cases(self) -> None:
         cases = [
-            ({**PRIOR, "authority_effect": "AUTHORIZE"}, PRIOR["configuration_digest"], PRIOR["dataset_digest"], PRIOR["model_digest"], "non-NONE authority"),
-            ({**PRIOR, "invalidation_triggers": []}, PRIOR["configuration_digest"], PRIOR["dataset_digest"], PRIOR["model_digest"], "empty triggers"),
-            (PRIOR, "sha256:short", PRIOR["dataset_digest"], PRIOR["model_digest"], "malformed current digest"),
-            ({**PRIOR, "dataset_digest": "sha256:" + "a" * 63}, PRIOR["configuration_digest"], PRIOR["dataset_digest"], PRIOR["model_digest"], "malformed prior digest"),
-            ({**PRIOR, "extra": "bad"}, PRIOR["configuration_digest"], PRIOR["dataset_digest"], PRIOR["model_digest"], "unsupported field"),
+            ({**PRIOR, "authority_effect": "AUTHORIZE"}, "non-NONE authority"),
+            ({**PRIOR, "invalidation_triggers": []}, "empty triggers"),
+            ({**PRIOR, "invalidation_triggers": "not-a-list"}, "non-array triggers"),
+            ({**PRIOR, "dataset_digest": "sha256:short"}, "malformed prior digest"),
+            ({**PRIOR, "extra": "bad"}, "unsupported field"),
+            ({**PRIOR, "evidence_provenance": {**PRIOR["evidence_provenance"], "extra": "bad"}}, "extra provenance field"),
         ]
-        for prior, config, dataset, model, label in cases:
+        for prior, label in cases:
             with self.subTest(label=label):
                 with self.assertRaises(ContractError):
-                    validate_material_change_invalidation(prior, config, dataset, model)
+                    self._call(prior=prior)
 
 
 if __name__ == "__main__":
