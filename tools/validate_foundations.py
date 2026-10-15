@@ -314,12 +314,18 @@ def main() -> None:
     spec.loader.exec_module(module)
     sample = json.loads((ROOT / "sample-data" / "succession-evidence-record.json").read_text(encoding="utf-8"))
     module.validate_succession_evidence(sample)
+    kernel_spec = importlib.util.spec_from_file_location(
+        "validate_assurance_kernel", ROOT / "tools" / "validate_assurance_kernel.py"
+    )
+    kernel = importlib.util.module_from_spec(kernel_spec)
+    kernel_spec.loader.exec_module(kernel)
+    kernel.validate_kernel_directory()
     validate_hygiene(files)
 
     print(
         "Foundations validation passed: "
         f"{len(files)} repository files checked; "
-        "positioning, JSON, links, handoff, assurance binding (positive+negative), and hygiene verified."
+        "positioning, JSON, links, handoff, assurance binding (positive+negative), assurance kernel, and hygiene verified."
     )
 
 

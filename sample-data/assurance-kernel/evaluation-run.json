@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "evaluation_id": "evaluation-synthetic-001",
+  "subject_id": "synthetic-subject-alpha",
+  "configuration_digest": "sha256:abababababababababababababababababababababababababababababababab",
+  "dataset_ref": "dataset-synthetic-001",
+  "model_ref": "model-synthetic-001",
+  "method": "synthetic replay",
+  "environment": "synthetic environment",
+  "metrics": [
+    "synthetic-metric-recorded"
+  ],
+  "limitations": [
+    "result is not real-world accuracy"
+  ],
+  "result": "synthetic result recorded",
+  "evaluated_at": "2026-10-15T00:00:00Z",
+  "evaluator_ref": "synthetic-evaluator",
+  "independence_note": "independence is not claimed",
+  "reference_only": true,
+  "authority_effect": "NONE"
+}

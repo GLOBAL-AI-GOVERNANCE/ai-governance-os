@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "unknown_id": "unknown-synthetic-001",
+  "subject_id": "synthetic-subject-alpha",
+  "configuration_digest": "sha256:abababababababababababababababababababababababababababababababab",
+  "statement": "external authenticity is unresolved",
+  "type": "UNAVAILABLE_INFORMATION",
+  "decision_relevance": "blocks any claim of external authenticity",
+  "blocking": true,
+  "owner": "synthetic-owner",
+  "identified_at": "2026-10-15T00:00:00Z",
+  "resolution_evidence_refs": [],
+  "status": "OPEN",
+  "revalidation_trigger": "new source evidence",
+  "reference_only": true,
+  "authority_effect": "NONE"
+}

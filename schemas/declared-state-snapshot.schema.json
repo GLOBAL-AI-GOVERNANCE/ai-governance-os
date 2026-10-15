@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "declared-state-snapshot.schema.json",
+  "title": "Declared State Snapshot",
+  "description": "A declared state. Observation does not overwrite this record. authority_effect remains NONE.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "minLength": 1
+    },
+    "snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "configuration_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "declared_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "declarer_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "authority_effect": {
+      "type": "string",
+      "const": "NONE",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "snapshot_id",
+    "subject_id",
+    "configuration_digest",
+    "declared_at",
+    "declarer_ref",
+    "statement",
+    "reference_only",
+    "authority_effect"
+  ]
+}

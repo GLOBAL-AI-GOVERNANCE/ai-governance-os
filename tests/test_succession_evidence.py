@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import json
+import re
 import unittest
 from pathlib import Path
 
-from tools.validate_succession_evidence import ContractError, validate_succession_evidence
+from tools.validate_succession_evidence import TIMESTAMP, ContractError, validate_succession_evidence
 
 ROOT = Path(__file__).resolve().parents[1]
 SAMPLE = json.loads((ROOT / "sample-data" / "succession-evidence-record.json").read_text(encoding="utf-8"))
@@ -60,6 +61,17 @@ class SuccessionEvidenceTests(unittest.TestCase):
             with self.subTest(label=label):
                 with self.assertRaises(ContractError):
                     validate_succession_evidence(record)
+
+    def test_public_schema_rejects_malformed_timestamps_independently(self) -> None:
+        schema = json.loads((ROOT / "schemas" / "succession-evidence-record.schema.json").read_text(encoding="utf-8"))
+        pattern = schema["properties"]["evaluated_at"]["pattern"]
+        self.assertEqual(pattern, TIMESTAMP.pattern)
+        self.assertIsNotNone(re.fullmatch(pattern, SAMPLE["evaluated_at"]))
+        for value in ("15 October 2026", "2026-10-15", "2026-10-15T00:00:00+00:00", ""):
+            self.assertIsNone(re.fullmatch(pattern, value))
+            with self.assertRaises(ContractError):
+                validate_succession_evidence({**SAMPLE, "evaluated_at": value})
+
 
 if __name__ == "__main__":
     unittest.main()

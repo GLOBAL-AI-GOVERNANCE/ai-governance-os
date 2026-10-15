@@ -29,3 +29,12 @@ The synthetic fixture in `sample-data/assurance-context-binding.json` uses deter
 ## Succession Evidence Record
 
 The `succession-evidence-record` schema is a foundational reference record for a bounded capability-transfer exercise. It is owned by AI Governance Foundations. A declared SUCCESS is accepted only when restoration, reproduction, fallback, recovery, authority-boundary explanation, resumption, support ownership, and the absence of creator dependence and undocumented dependencies are all recorded. The record remains `reference_only: true`, `human_review_required: true`, and `authority_effect: NONE`. It does not authorize use, certify a team, or establish operational readiness.
+
+## Assurance kernel
+
+Foundations also defines reference-only records for evidence, unknowns, context boundaries, declared and observed state, reconciliation, dataset and model assurance, evaluation runs, and drift events.
+
+Evidence class does not imply truth. An unknown stays visible while it is blocking. Observation does not overwrite a declaration, and UNKNOWN is not MATCH. Material drift requires reassessment and does not retrain or promote a model. Context boundary records are technical metadata, not legal ownership. `authority_effect` remains `NONE`.
+
+Synthetic fixtures under `sample-data/assurance-kernel/` are illustrative only.
+
