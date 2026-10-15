@@ -28,3 +28,7 @@ jobs:
       - name: Validate foundations repository
         run: |
           python3 -B tools/validate_foundations.py
+
+      - name: Run material-change and other unit tests
+        run: |
+          python3 -B -m unittest discover -s tests -p 'test_*.py' -v
