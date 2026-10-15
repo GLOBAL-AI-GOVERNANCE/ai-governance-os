@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "governance-problem-record.schema.json",
+  "title": "Governance Problem Record",
+  "description": "Bounded problem with owner, evidence requirement, and closure condition.",
+  "type": "object",
+  "properties": {
+    "problem_id": { "type": "string" },
+    "title": { "type": "string" },
+    "source": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "reference": { "type": "string" },
+        "date": { "type": "string" },
+        "claim_status": { "type": "string" }
+      }
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "system_id": { "type": "string" },
+        "version": { "type": "string" },
+        "configuration": { "type": "string" }
+      }
+    },
+    "failure_mode": { "type": "string" },
+    "owner": { "type": "string" },
+    "controls": { "type": "object" },
+    "evidence": { "type": "object" },
+    "validation": { "type": "object" },
+    "decision": { "type": "object" },
+    "closure": {
+      "type": "object",
+      "properties": {
+        "criteria": { "type": "string" },
+        "verification_required": { "type": "boolean" },
+        "closed": { "type": "boolean" },
+        "reopen_triggers": { "type": "array" }
+      }
+    }
+  },
+  "required": ["problem_id", "title", "owner"],
+  "additionalProperties": false
+}
