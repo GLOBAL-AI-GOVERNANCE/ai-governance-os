@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "global-ai-assurance-envelope.schema.json",
+  "title": "Global AI Assurance Envelope",
+  "description": "Reference-only interoperability object. Authority effect remains NONE.",
+  "type": "object",
+  "properties": {
+    "subject_id": { "type": "string" },
+    "version": { "type": "string" },
+    "configuration_digest": { "type": "string" },
+    "deployment_context": { "type": "string" },
+    "decision_pack_reference": { "type": "string" },
+    "native_artifact_references": { "type": "array" },
+    "independent_assurance_reference": { "type": "string" },
+    "residual_risk": { "type": "string" },
+    "human_disposition": { "type": "string" },
+    "validity_window": { "type": "string" },
+    "revalidation_triggers": { "type": "array" },
+    "reference_only": { "type": "boolean", "const": true },
+    "authority_effect": { "type": "string", "const": "NONE" }
+  },
+  "required": ["subject_id", "authority_effect", "reference_only"],
+  "additionalProperties": false
+}
