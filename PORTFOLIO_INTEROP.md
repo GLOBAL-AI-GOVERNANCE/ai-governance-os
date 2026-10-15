@@ -17,3 +17,11 @@ It deliberately carries references rather than embedding another repository's sc
 - the envelope does not approve, certify, authorize, close, or prove a control.
 
 The synthetic sample in `sample-data/portfolio-handoff-reference.json` is illustrative only.
+
+## Assurance Context Binding
+
+The `assurance-context-binding` schema provides a reference-only binding of subject, configuration digest, context boundary, and evidence provenance.
+
+It supports material-change invalidation without transferring authority. `authority_effect` remains `NONE`.
+
+The synthetic fixture in `sample-data/assurance-context-binding.json` is illustrative only and does not establish operational readiness.
