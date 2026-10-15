@@ -42,5 +42,24 @@ class SuccessionEvidenceTests(unittest.TestCase):
                     validate_succession_evidence(record)
 
 
+
+    def test_schema_parity_rejects_malformed_records(self) -> None:
+        cases = [
+            ({**SAMPLE, "subject_id": ""}, "empty subject"),
+            ({**SAMPLE, "environment_boundary": ""}, "empty environment"),
+            ({**SAMPLE, "evaluated_at": "15 October 2026"}, "invalid evaluated_at"),
+            ({**SAMPLE, "successor_team_ref": ""}, "empty successor team"),
+            ({**SAMPLE, "configuration_restored": "true"}, "string instead of boolean"),
+            ({**SAMPLE, "limitations": []}, "empty limitations"),
+            ({**SAMPLE, "undocumented_dependencies_found": [1]}, "non-string dependency"),
+            ({**SAMPLE, "handoff_artifacts": [{"reference": "", "digest": "sha256:" + "a" * 64}]}, "malformed nested artifact"),
+            ({**SAMPLE, "outcome": "PARTIAL", "evaluated_at": "not-a-time"}, "malformed partial"),
+            ({**SAMPLE, "outcome": "FAILED", "limitations": [""]}, "malformed failed"),
+        ]
+        for record, label in cases:
+            with self.subTest(label=label):
+                with self.assertRaises(ContractError):
+                    validate_succession_evidence(record)
+
 if __name__ == "__main__":
     unittest.main()
