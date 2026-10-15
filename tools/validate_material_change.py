@@ -31,6 +31,11 @@ def _require_digest(value: Any, name: str) -> None:
         raise ContractError(f"{name} must match ^sha256:[a-f0-9]{{64}}$")
 
 
+def _require_nonempty_string(value: Any, name: str) -> None:
+    if not isinstance(value, str) or not value:
+        raise ContractError(f"{name} must be a nonempty string")
+
+
 def validate_material_change_invalidation(
     prior_evaluation: dict[str, Any],
     current_subject_id: str,
@@ -57,13 +62,17 @@ def validate_material_change_invalidation(
     if schema.get("additionalProperties") is False and set(prior_evaluation) - required:
         raise ContractError("unsupported evaluation basis fields")
 
+    # Enforce nonempty string identifiers and outcomes
+    for field in ("evaluation_id", "subject_id", "dataset_id", "model_id", "context_boundary", "evaluation_outcome"):
+        _require_nonempty_string(prior_evaluation.get(field), field)
+
     if prior_evaluation.get("authority_effect") != "NONE":
         raise ContractError("authority_effect must be NONE")
     if prior_evaluation.get("reference_only") is not True:
         raise ContractError("must be reference_only")
     triggers = prior_evaluation.get("invalidation_triggers")
     if not isinstance(triggers, list) or not triggers or not all(isinstance(t, str) and t for t in triggers):
-        raise ContractError("invalidation_triggers must be a nonempty array of strings")
+        raise ContractError("invalidation_triggers must be a nonempty array of nonempty strings")
 
     for field in ("dataset_digest", "model_digest", "configuration_digest"):
         _require_digest(prior_evaluation.get(field), field)
@@ -71,13 +80,23 @@ def validate_material_change_invalidation(
     _require_digest(current_dataset_digest, "current_dataset_digest")
     _require_digest(current_model_digest, "current_model_digest")
 
+    # Current identity inputs must be valid before comparison
+    for name, value in (
+        ("current_subject_id", current_subject_id),
+        ("current_dataset_id", current_dataset_id),
+        ("current_model_id", current_model_id),
+        ("current_context_boundary", current_context_boundary),
+    ):
+        _require_nonempty_string(value, name)
+
     prov = prior_evaluation.get("evidence_provenance")
     if not isinstance(prov, dict):
         raise ContractError("evidence_provenance must be an object")
     if set(prov) - {"source", "timestamp", "digest"}:
         raise ContractError("unsupported provenance fields")
-    if not prov.get("source") or not prov.get("timestamp") or not DIGEST_RE.fullmatch(prov.get("digest", "")):
-        raise ContractError("evidence_provenance incomplete or malformed")
+    _require_nonempty_string(prov.get("source"), "evidence_provenance.source")
+    _require_nonempty_string(prov.get("timestamp"), "evidence_provenance.timestamp")
+    _require_digest(prov.get("digest"), "evidence_provenance.digest")
 
     # Identity and context must match before digest comparison
     identity_mismatch = (
