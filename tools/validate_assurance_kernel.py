@@ -24,6 +24,9 @@ FILES = (
     "model-assurance-record",
     "evaluation-run",
     "drift-event",
+    "qualification-evidence-record",
+    "unresolved-decision-record",
+    "protected-concern-disposition-record",
 )
 
 
@@ -108,20 +111,55 @@ def _semantic(name: str, record: dict) -> None:
             _require(record["reassessment_required"] is True, "material drift requires reassessment")
         _require("automatic_retrain" not in record, "drift record cannot retrain a model")
         _require("automatic_promotion" not in record, "drift record cannot promote a model")
+    elif name == "qualification-evidence-record":
+        _require(record.get("human_review_required") is True, "human_review_required must be true")
+        # Expiry and outcome rules enforced with evaluation_time or in tests
+    elif name == "unresolved-decision-record":
+        if record["blocking"] is True:
+            _require(record.get("owner_ref"), "missing owner on blocking decision fails closed")
+        if record["status"] == "RESOLVED":
+            _require(record.get("resolution_reference"), "RESOLVED requires resolution_reference")
+        # evaluation_time handled in caller
+        _require(record.get("authority_effect") == "NONE", "authority_effect must be NONE")
+    elif name == "protected-concern-disposition-record":
+        if record["status"] == "ACTIVE":
+            _require(record["assurance_effect"] in ("QUESTIONED", "STALE", "HOLD"), "ACTIVE concern effect bounded")
+        if record["status"] == "CLOSED":
+            _require(record.get("closure_evidence_refs"), "closure requires bounded evidence reference")
+        if record["assurance_effect"] == "STALE":
+            _require(record["revalidation_required"] is True, "STALE requires revalidation")
+        if record["assurance_effect"] == "HOLD":
+            # cannot become authorization; enforced by authority_effect NONE
+            pass
+        _require(record.get("human_review_required") is True, "human_review_required must be true")
 
 
-def validate_record(name: str, record: dict[str, Any]) -> dict[str, Any]:
+def validate_record(name: str, record: dict[str, Any], evaluation_time: str | None = None) -> dict[str, Any]:
     _require(name in FILES, f"unsupported kernel record: {name}")
     schema = json.loads((SCHEMA_DIR / f"{name}.schema.json").read_text(encoding="utf-8"))
     _check(record, schema, name)
     _semantic(name, record)
-    return {
+    # Deterministic evaluation for decision records
+    effective_status = record.get("status")
+    if name == "unresolved-decision-record" and evaluation_time and record.get("status") == "OPEN":
+        if evaluation_time > record["deadline"]:
+            effective_status = "EXPIRED"
+            if record.get("blocking") is True:
+                raise ContractError("EXPIRED blocking decision cannot satisfy readiness")
+    if name == "qualification-evidence-record" and evaluation_time:
+        if evaluation_time > record["expires_at"] and record["outcome"] in ("QUALIFIED", "CONDITIONAL"):
+            raise ContractError("expired qualification cannot satisfy current readiness")
+    result = {
         "valid": True,
         "record": name,
         "reference_only": True,
         "authority_effect": "NONE",
         "note": "Reference record only. It does not establish truth, authenticity, operational readiness, certification, or authority.",
     }
+    if effective_status == "EXPIRED":
+        result["effective_status"] = "EXPIRED"
+        result["note"] += " OPEN past deadline treated as EXPIRED."
+    return result
 
 
 def validate_kernel_directory(directory: Path | None = None) -> None:

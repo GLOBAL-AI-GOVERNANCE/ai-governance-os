@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "qualification_id": "qual-synthetic-001",
+  "principal_ref": "opaque-principal-alpha",
+  "principal_type": "PERSON",
+  "role": "evaluator",
+  "scope": "synthetic-mission-assurance",
+  "subject_id": "synthetic-subject-alpha",
+  "configuration_digest": "sha256:abababababababababababababababababababababababababababababababab",
+  "environment": "synthetic-lab",
+  "competence_evidence_refs": ["evidence-synthetic-001"],
+  "qualified_from": "2026-10-01T00:00:00Z",
+  "expires_at": "2027-10-01T00:00:00Z",
+  "limitations": ["qualification is role- and scope-specific", "does not confer authority"],
+  "relief_ready": false,
+  "outcome": "QUALIFIED",
+  "reference_only": true,
+  "human_review_required": true,
+  "authority_effect": "NONE"
+}

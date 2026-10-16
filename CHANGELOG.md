@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add reference-only Qualification Evidence Record, Unresolved Decision Record, and Protected Concern Disposition Record schemas, synthetic fixtures, and fail-closed validation.
+- Integrate with the assurance kernel validator. Hostile tests cover expiry, silence-as-approval, missing owners, concern dispositions, and authority_effect NONE.
+
 ## v1.1 — AI Governance OS
 
 - Published deployable AI Governance OS structure.
