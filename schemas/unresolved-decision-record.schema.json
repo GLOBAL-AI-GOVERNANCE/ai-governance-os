@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "unresolved-decision-record.schema.json",
   "title": "Unresolved Decision Record",
-  "description": "Reference-only record that makes decision debt explicit. Silence never becomes approval. ESCALATED is not RESOLVED. RESOLVED does not itself create operational authority. Missing owner on a blocking decision fails closed. OPEN past deadline is treated as EXPIRED for readiness. EXPIRED blocking decision cannot satisfy readiness.",
+  "description": "Reference-only record that makes decision debt owned and escalatable. Silence never becomes approval. ESCALATED is not RESOLVED. RESOLVED does not itself create operational authority. owner_ref is required and nonempty. evidence_needed_refs is required and may be empty only when limitations state that no additional evidence is currently identified. OPEN and ESCALATED decisions require a nonempty escalation_route_ref. RESOLVED requires resolution_reference. OPEN past deadline is treated as EXPIRED for readiness. EXPIRED blocking decision cannot satisfy readiness.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -92,6 +92,8 @@
     "deadline",
     "blocking",
     "mission_consequence",
+    "owner_ref",
+    "evidence_needed_refs",
     "status",
     "limitations",
     "reference_only",

@@ -3,7 +3,8 @@
 ## Unreleased
 
 - Add reference-only Qualification Evidence Record, Unresolved Decision Record, and Protected Concern Disposition Record schemas, synthetic fixtures, and fail-closed validation.
-- Integrate with the assurance kernel validator. Hostile tests cover expiry, silence-as-approval, missing owners, concern dispositions, and authority_effect NONE.
+- Qualification interval endpoints are inclusive. A record remains valid when future or expired; only a current QUALIFIED outcome can satisfy readiness.
+- Unresolved decisions require an owner, an evidence-needed array, and an escalation route while OPEN or ESCALATED. Silence is not approval.
 
 ## v1.1 — AI Governance OS
 

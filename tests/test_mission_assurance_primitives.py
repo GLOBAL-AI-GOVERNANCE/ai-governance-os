@@ -30,9 +30,123 @@ class MissionAssurancePrimitivesTests(unittest.TestCase):
 
     def test_expired_qualification(self) -> None:
         record = load("qualification-evidence-record")
+        result = validate_record("qualification-evidence-record", record, evaluation_time="2028-01-01T00:00:00Z")
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["temporal_state"], "EXPIRED")
+        self.assertFalse(result["can_satisfy_readiness"])
+        self.assertEqual(result["authority_effect"], "NONE")
+
+    def test_qualified_from_after_expires_at(self) -> None:
+        record = load("qualification-evidence-record")
+        record["qualified_from"] = "2027-10-02T00:00:00Z"
+        record["expires_at"] = "2027-10-01T00:00:00Z"
         with self.assertRaises(ContractError) as ctx:
-            validate_record("qualification-evidence-record", record, evaluation_time="2028-01-01T00:00:00Z")
-        self.assertIn("expired qualification", str(ctx.exception))
+            validate_record("qualification-evidence-record", record)
+        self.assertIn("strictly before", str(ctx.exception))
+
+    def test_evaluation_before_qualified_from(self) -> None:
+        record = load("qualification-evidence-record")
+        result = validate_record("qualification-evidence-record", record, evaluation_time="2026-09-30T23:59:59Z")
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["temporal_state"], "NOT_YET_EFFECTIVE")
+        self.assertFalse(result["can_satisfy_readiness"])
+
+    def test_evaluation_exactly_at_qualified_from(self) -> None:
+        record = load("qualification-evidence-record")
+        result = validate_record(
+            "qualification-evidence-record",
+            record,
+            evaluation_time=record["qualified_from"],
+        )
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["temporal_state"], "CURRENT")
+        self.assertTrue(result["can_satisfy_readiness"])
+        self.assertEqual(result["interval"], "inclusive")
+
+    def test_evaluation_exactly_at_expires_at(self) -> None:
+        record = load("qualification-evidence-record")
+        result = validate_record(
+            "qualification-evidence-record",
+            record,
+            evaluation_time=record["expires_at"],
+        )
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["temporal_state"], "CURRENT")
+        self.assertTrue(result["can_satisfy_readiness"])
+
+    def test_evaluation_after_expires_at(self) -> None:
+        record = load("qualification-evidence-record")
+        result = validate_record("qualification-evidence-record", record, evaluation_time="2027-10-01T00:00:01Z")
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["temporal_state"], "EXPIRED")
+        self.assertFalse(result["can_satisfy_readiness"])
+
+    def test_conditional_and_not_qualified_do_not_satisfy_readiness(self) -> None:
+        record = load("qualification-evidence-record")
+        for outcome in ("CONDITIONAL", "NOT_QUALIFIED"):
+            record["outcome"] = outcome
+            result = validate_record(
+                "qualification-evidence-record",
+                record,
+                evaluation_time="2026-10-15T00:00:00Z",
+            )
+            self.assertTrue(result["valid"])
+            self.assertEqual(result["temporal_state"], "CURRENT")
+            self.assertFalse(result["can_satisfy_readiness"])
+
+    def test_decision_requires_owner_and_evidence_array(self) -> None:
+        record = load("unresolved-decision-record")
+        del record["owner_ref"]
+        with self.assertRaises(ContractError):
+            validate_record("unresolved-decision-record", record)
+        record = load("unresolved-decision-record")
+        del record["evidence_needed_refs"]
+        with self.assertRaises(ContractError):
+            validate_record("unresolved-decision-record", record)
+
+    def test_empty_evidence_requires_explicit_limitation(self) -> None:
+        record = load("unresolved-decision-record")
+        record["evidence_needed_refs"] = []
+        with self.assertRaises(ContractError):
+            validate_record("unresolved-decision-record", record)
+        record["limitations"] = ["no additional evidence is currently identified"]
+        result = validate_record("unresolved-decision-record", record)
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["authority_effect"], "NONE")
+
+    def test_open_and_escalated_require_escalation_route(self) -> None:
+        for status in ("OPEN", "ESCALATED"):
+            record = load("unresolved-decision-record")
+            record["status"] = status
+            del record["escalation_route_ref"]
+            with self.subTest(status=status):
+                with self.assertRaises(ContractError):
+                    validate_record("unresolved-decision-record", record)
+
+    def test_resolved_requires_resolution_reference(self) -> None:
+        record = load("unresolved-decision-record")
+        record["status"] = "RESOLVED"
+        with self.assertRaises(ContractError):
+            validate_record("unresolved-decision-record", record)
+        record["resolution_reference"] = "opaque-resolution-alpha"
+        result = validate_record("unresolved-decision-record", record)
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["authority_effect"], "NONE")
+        self.assertNotEqual(record["status"], "OPEN")
+
+    def test_escalated_is_not_resolved_and_silence_is_not_approval(self) -> None:
+        record = load("unresolved-decision-record")
+        record["status"] = "ESCALATED"
+        result = validate_record("unresolved-decision-record", record, evaluation_time="2026-12-01T00:00:00Z")
+        self.assertEqual(record["status"], "ESCALATED")
+        self.assertNotEqual(record["status"], "RESOLVED")
+        self.assertEqual(result["authority_effect"], "NONE")
+        withdrawn = load("unresolved-decision-record")
+        withdrawn["status"] = "WITHDRAWN"
+        withdrawn_result = validate_record("unresolved-decision-record", withdrawn)
+        self.assertTrue(withdrawn_result["valid"])
+        self.assertEqual(withdrawn_result["authority_effect"], "NONE")
+        self.assertNotEqual(withdrawn["status"], "RESOLVED")
 
     def test_wrong_subject_or_configuration_not_auto_valid(self) -> None:
         # Schema allows different subject; semantic does not promote cross-subject
