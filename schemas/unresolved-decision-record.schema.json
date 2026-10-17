@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "unresolved-decision-record.schema.json",
+  "title": "Unresolved Decision Record",
+  "description": "Reference-only record that makes decision debt owned and escalatable. Silence never becomes approval. ESCALATED is not RESOLVED. RESOLVED does not itself create operational authority. owner_ref is required and nonempty. evidence_needed_refs is required and may be empty only when limitations state that no additional evidence is currently identified. OPEN and ESCALATED decisions require a nonempty escalation_route_ref. RESOLVED requires resolution_reference. OPEN past deadline is treated as EXPIRED for readiness. EXPIRED blocking decision cannot satisfy readiness.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "minLength": 1
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "configuration_digest": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "opened_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "deadline": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "blocking": {
+      "type": "boolean"
+    },
+    "mission_consequence": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_needed_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "escalation_route_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["OPEN", "ESCALATED", "RESOLVED", "WITHDRAWN"],
+      "minLength": 1
+    },
+    "resolution_reference": {
+      "type": "string",
+      "minLength": 1
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reference_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "authority_effect": {
+      "type": "string",
+      "const": "NONE"
+    }
+  },
+  "required": [
+    "schema_version",
+    "decision_id",
+    "subject_id",
+    "question",
+    "opened_at",
+    "deadline",
+    "blocking",
+    "mission_consequence",
+    "owner_ref",
+    "evidence_needed_refs",
+    "status",
+    "limitations",
+    "reference_only",
+    "authority_effect"
+  ]
+}

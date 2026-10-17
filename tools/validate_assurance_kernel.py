@@ -24,6 +24,9 @@ FILES = (
     "model-assurance-record",
     "evaluation-run",
     "drift-event",
+    "qualification-evidence-record",
+    "unresolved-decision-record",
+    "protected-concern-disposition-record",
 )
 
 
@@ -108,20 +111,91 @@ def _semantic(name: str, record: dict) -> None:
             _require(record["reassessment_required"] is True, "material drift requires reassessment")
         _require("automatic_retrain" not in record, "drift record cannot retrain a model")
         _require("automatic_promotion" not in record, "drift record cannot promote a model")
+    elif name == "qualification-evidence-record":
+        _require(record.get("human_review_required") is True, "human_review_required must be true")
+        # Strict interval. Inclusive endpoints are applied only when evaluation_time is supplied.
+        _require(record["qualified_from"] < record["expires_at"], "qualified_from must be strictly before expires_at")
+    elif name == "unresolved-decision-record":
+        owner = record.get("owner_ref")
+        _require(isinstance(owner, str) and owner.strip(), "owner_ref must be nonempty")
+        evidence_needed = record.get("evidence_needed_refs")
+        _require(isinstance(evidence_needed, list), "evidence_needed_refs must be an array")
+        if len(evidence_needed) == 0:
+            limitations = " ".join(record.get("limitations") or []).lower()
+            _require(
+                "no additional evidence is currently identified" in limitations,
+                "empty evidence_needed_refs requires limitations to state that no additional evidence is currently identified",
+            )
+        if record["status"] in ("OPEN", "ESCALATED"):
+            route = record.get("escalation_route_ref")
+            _require(isinstance(route, str) and route.strip(), "OPEN or ESCALATED decision requires nonempty escalation_route_ref")
+        if record["status"] == "RESOLVED":
+            resolution = record.get("resolution_reference")
+            _require(isinstance(resolution, str) and resolution.strip(), "RESOLVED requires resolution_reference")
+        # ESCALATED is a distinct status and is never rewritten to RESOLVED.
+        # Deadline silence is never rewritten to approval.
+        _require(record.get("authority_effect") == "NONE", "authority_effect must be NONE")
+    elif name == "protected-concern-disposition-record":
+        if record["status"] == "ACTIVE":
+            _require(record["assurance_effect"] in ("QUESTIONED", "STALE", "HOLD"), "ACTIVE concern effect bounded")
+        if record["status"] == "CLOSED":
+            _require(record.get("closure_evidence_refs"), "closure requires bounded evidence reference")
+        if record["assurance_effect"] == "STALE":
+            _require(record["revalidation_required"] is True, "STALE requires revalidation")
+        if record["assurance_effect"] == "HOLD":
+            # cannot become authorization; enforced by authority_effect NONE
+            pass
+        _require(record.get("human_review_required") is True, "human_review_required must be true")
 
 
-def validate_record(name: str, record: dict[str, Any]) -> dict[str, Any]:
+def validate_record(name: str, record: dict[str, Any], evaluation_time: str | None = None) -> dict[str, Any]:
     _require(name in FILES, f"unsupported kernel record: {name}")
     schema = json.loads((SCHEMA_DIR / f"{name}.schema.json").read_text(encoding="utf-8"))
     _check(record, schema, name)
     _semantic(name, record)
-    return {
+    # Deterministic evaluation for decision records.
+    # Deadline endpoint is exclusive of expiry: evaluation_time > deadline is EXPIRED.
+    effective_status = record.get("status")
+    temporal_state = None
+    can_satisfy_readiness = None
+    if name == "unresolved-decision-record" and evaluation_time and record.get("status") == "OPEN":
+        if evaluation_time > record["deadline"]:
+            effective_status = "EXPIRED"
+            if record.get("blocking") is True:
+                raise ContractError("EXPIRED blocking decision cannot satisfy readiness")
+    if name == "qualification-evidence-record":
+        # Inclusive endpoints: CURRENT iff qualified_from <= evaluation_time <= expires_at.
+        # Record validity is independent of whether the outcome can satisfy readiness.
+        start = record["qualified_from"]
+        end = record["expires_at"]
+        if evaluation_time is None:
+            temporal_state = "UNEVALUATED"
+            can_satisfy_readiness = False
+        elif evaluation_time < start:
+            temporal_state = "NOT_YET_EFFECTIVE"
+            can_satisfy_readiness = False
+        elif evaluation_time > end:
+            temporal_state = "EXPIRED"
+            can_satisfy_readiness = False
+        else:
+            temporal_state = "CURRENT"
+            can_satisfy_readiness = record.get("outcome") == "QUALIFIED"
+    result = {
         "valid": True,
         "record": name,
         "reference_only": True,
         "authority_effect": "NONE",
         "note": "Reference record only. It does not establish truth, authenticity, operational readiness, certification, or authority.",
     }
+    if temporal_state is not None:
+        result["temporal_state"] = temporal_state
+        result["can_satisfy_readiness"] = can_satisfy_readiness
+        result["interval"] = "inclusive"
+        result["note"] += " Qualification interval is inclusive at both endpoints. A future or expired qualification cannot satisfy readiness. CONDITIONAL and NOT_QUALIFIED do not satisfy readiness."
+    if effective_status == "EXPIRED":
+        result["effective_status"] = "EXPIRED"
+        result["note"] += " OPEN past deadline treated as EXPIRED."
+    return result
 
 
 def validate_kernel_directory(directory: Path | None = None) -> None:

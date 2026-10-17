@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "decision_id": "dec-synthetic-001",
+  "subject_id": "synthetic-subject-alpha",
+  "configuration_digest": "sha256:abababababababababababababababababababababababababababababababab",
+  "question": "Is the synthetic configuration ready for the bounded mission thread?",
+  "owner_ref": "opaque-owner-alpha",
+  "opened_at": "2026-10-10T00:00:00Z",
+  "deadline": "2026-11-10T00:00:00Z",
+  "blocking": true,
+  "mission_consequence": "progression held until resolved",
+  "evidence_needed_refs": ["evidence-synthetic-001"],
+  "escalation_route_ref": "opaque-escalation-alpha",
+  "status": "OPEN",
+  "limitations": ["silence is not approval", "resolution does not authorize operation"],
+  "reference_only": true,
+  "authority_effect": "NONE"
+}
