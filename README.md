@@ -8,7 +8,7 @@
 
 **Foundational governance models, schemas, registers, templates, and playbooks for accountable AI oversight.**
 
-**Status:** Foundational public reference repository. The existing `v1.1` release remains part of this repository's historical lineage.
+**Status:** Foundational public reference repository and the original foundation of the Global AI Governance portfolio. It was the first repository published (May 2026, as AI Governance OS v1.1); the toolkit and the later repositories build on its doctrine, registers, and templates. The `v1.1` release remains part of this repository's historical lineage.
 
 This repository preserves reusable governance foundations for making AI systems visible, owned, risk-tiered, reviewed, monitored, and controllable.
 
@@ -121,7 +121,7 @@ Dated source notes may become stale. Verify controlling laws, standards, policie
 
 AI Governance Foundations is the **FOUNDATION** layer: the governance model, registers, and templates the other repositories build on.
 
-- **Connect your agent:** [llms.txt](https://global-ai-governance.github.io/global-ai-governance-toolkit/llms.txt), [machine-interface.json](https://global-ai-governance.github.io/global-ai-governance-toolkit/machine-interface.json), and the [gag-mcp](https://github.com/GLOBAL-AI-GOVERNANCE/gag-mcp) server. Compatible with MCP-based agents.
+- **Connect your agent:** [llms.txt](https://global-ai-governance.github.io/global-ai-governance-toolkit/llms.txt), [machine-interface.json](https://global-ai-governance.github.io/global-ai-governance-toolkit/machine-interface.json), and the [AI Governance Model Context Protocol Server](https://github.com/GLOBAL-AI-GOVERNANCE/ai-governance-mcp) (AI Governance MCP; command `gag-mcp`). Compatible with Model Context Protocol (MCP) based agents.
 - **Run a pilot:** [pilot path and contact](https://github.com/GLOBAL-AI-GOVERNANCE/GLOBAL-AI-GOVERNANCE#for-labs-and-teams).
 - **Read the spec:** [versioned specifications](https://global-ai-governance.github.io/global-ai-governance-toolkit/connect.html#spec) and the [product map](https://github.com/GLOBAL-AI-GOVERNANCE/GLOBAL-AI-GOVERNANCE#product-map).
 
