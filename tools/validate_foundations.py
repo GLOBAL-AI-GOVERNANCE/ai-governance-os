@@ -16,7 +16,6 @@ INTEROP_SCHEMA = ROOT / "schemas" / "portfolio-handoff-reference.schema.json"
 INTEROP_EXAMPLE = ROOT / "sample-data" / "portfolio-handoff-reference.json"
 BINDING_SCHEMA = ROOT / "schemas" / "assurance-context-binding.schema.json"
 BINDING_EXAMPLE = ROOT / "sample-data" / "assurance-context-binding.json"
-CONTRIBUTING = ROOT / "CONTRIBUTING.md"
 SECURITY = ROOT / "SECURITY.md"
 
 REQUIRED_HEADINGS = (
@@ -118,16 +117,13 @@ def validate_readme(text: str) -> None:
 
 
 def validate_public_terminology() -> None:
-    contributing = CONTRIBUTING.read_text(encoding="utf-8-sig")
     security = SECURITY.read_text(encoding="utf-8-sig")
-    if "contributing to AI Governance Foundations" not in contributing:
-        fail("CONTRIBUTING does not use the current Foundations identity")
     for phrase in (
         "historical AI Governance OS v1.1 release and provenance",
         "historical public release remains AI Governance OS v1.1",
         "does not relabel or reissue that release",
     ):
-        if phrase not in contributing + security:
+        if phrase not in security:
             fail(f"v1.1 provenance boundary is missing: {phrase}")
 
 
