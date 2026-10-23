@@ -1,10 +1,10 @@
 # AI Governance Foundations
 
-<!-- gag:nav -->
+<!-- gaig:nav -->
 [![Global AI Governance](https://img.shields.io/badge/Global_AI_Governance-portfolio-0b100d)](https://github.com/GLOBAL-AI-GOVERNANCE/GLOBAL-AI-GOVERNANCE) ![Status](https://img.shields.io/badge/status-v1.1_foundational-blue) ![authority_effect](https://img.shields.io/badge/authority__effect-NONE-lightgrey)
 
 **[Connect your agent](https://global-ai-governance.github.io/global-ai-governance-toolkit/connect.html#agents)** · **[Read the spec](https://global-ai-governance.github.io/global-ai-governance-toolkit/connect.html#spec)** · [All products](https://github.com/GLOBAL-AI-GOVERNANCE/GLOBAL-AI-GOVERNANCE#product-map)
-<!-- /gag:nav -->
+<!-- /gaig:nav -->
 
 **Foundational governance models, schemas, registers, templates, and playbooks for accountable AI oversight.**
 
@@ -116,7 +116,7 @@ Dated source notes may become stale. Verify controlling laws, standards, policie
 
 **Use foundations to structure the work. Use the toolkit to produce the decision-ready outcome. Keep final authority human-owned.**
 
-<!-- gag:footer -->
+<!-- gaig:footer -->
 ## Part of Global AI Governance
 
 AI Governance Foundations is the **FOUNDATION** layer: the governance model, registers, and templates the other repositories build on.
@@ -125,4 +125,4 @@ AI Governance Foundations is the **FOUNDATION** layer: the governance model, reg
 - **Read the spec:** [versioned specifications](https://global-ai-governance.github.io/global-ai-governance-toolkit/connect.html#spec) and the [product map](https://github.com/GLOBAL-AI-GOVERNANCE/GLOBAL-AI-GOVERNANCE#product-map).
 
 Outputs are non-authorizing (`authority_effect: NONE`). Not affiliated with or endorsed by any AI lab or platform.
-<!-- /gag:footer -->
+<!-- /gaig:footer -->
