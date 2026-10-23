@@ -42,7 +42,7 @@ REQUIRED_PHRASES = (
     "not prove that an organization implemented them",
     "current authoritative sources",
     "https://github.com/GLOBAL-AI-GOVERNANCE/global-ai-governance-toolkit",
-    "current tagged release:",
+    "latest published release",
 )
 
 FORBIDDEN_PHRASES = (
