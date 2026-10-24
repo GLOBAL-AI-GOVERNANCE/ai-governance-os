@@ -1,5 +1,5 @@
 {
-  "$id": "https://github.com/GLOBAL-AI-GOVERNANCE/ai-governance-os/schemas/portfolio-handoff-reference.schema.json",
+  "$id": "https://raw.githubusercontent.com/GLOBAL-AI-GOVERNANCE/ai-governance-os/v1.1.1/schemas/portfolio-handoff-reference.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
