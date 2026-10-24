@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "capability-delta-detection.schema.json",
   "title": "Capability Delta Detection Record",
   "type": "object",
   "required": [

@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ai-approval-log.schema.json",
   "title": "AI Approval Log Record",
   "type": "object",
   "required": [
