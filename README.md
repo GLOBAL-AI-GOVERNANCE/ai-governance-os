@@ -1,14 +1,14 @@
 # AI Governance Foundations
 
 <!-- gaig:nav -->
-**[Global AI Governance](https://ai-governance.solutions/)** · `v1.1.1 · foundational` · `authority_effect: NONE`
+**[Global AI Governance](https://ai-governance.solutions/)** · `v1.1.1 · stable` · `authority_effect: NONE`
 
 [Connect your agent](https://ai-governance.solutions/connect.html#agents) · [Specifications](https://ai-governance.solutions/connect.html#spec) · [All products](https://ai-governance.solutions/#products)
 <!-- /gaig:nav -->
 
 **Foundational governance models, schemas, registers, templates, and playbooks for accountable AI oversight.**
 
-**Status:** Foundational public reference repository and the original foundation of the Global AI Governance portfolio. It was the first repository published (May 2026, as AI Governance OS v1.1); the toolkit and the later repositories build on its doctrine, registers, and templates. The `v1.1` release remains part of this repository's historical lineage.
+**Status:** Stable · `v1.1.1`. Foundational public reference repository and the original foundation of the Global AI Governance portfolio. It was the first repository published (May 2026, as AI Governance OS v1.1); the toolkit and the later repositories build on its doctrine, registers, and templates. The `v1.1` release remains part of this repository's historical lineage.
 
 This repository preserves reusable governance foundations for making AI systems visible, owned, risk-tiered, reviewed, monitored, and controllable.
 
