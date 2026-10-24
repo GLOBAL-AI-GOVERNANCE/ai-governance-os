@@ -30,6 +30,9 @@ jobs:
           ref: refs/tags/${{ env.TAG }}
           persist-credentials: false
 
+      - name: Require every schema $id to resolve to this tag's document
+        run: python3 -B tools/check_schema_ids.py --online
+
       - name: Build source archive from the tag
         shell: bash
         run: |

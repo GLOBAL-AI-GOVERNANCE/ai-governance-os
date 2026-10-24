@@ -1,7 +1,7 @@
 # AI Governance Foundations
 
 <!-- gaig:nav -->
-[![Global AI Governance](https://img.shields.io/badge/Global_AI_Governance-portfolio-0b100d)](https://github.com/GLOBAL-AI-GOVERNANCE/GLOBAL-AI-GOVERNANCE) ![Status](https://img.shields.io/badge/status-v1.1_foundational-blue) ![authority_effect](https://img.shields.io/badge/authority__effect-NONE-lightgrey)
+[![Global AI Governance](https://img.shields.io/badge/Global_AI_Governance-portfolio-0b100d)](https://github.com/GLOBAL-AI-GOVERNANCE/GLOBAL-AI-GOVERNANCE) ![Status](https://img.shields.io/badge/status-v1.1.1_foundational-blue) ![authority_effect](https://img.shields.io/badge/authority__effect-NONE-lightgrey)
 
 **[Connect your agent](https://ai-governance.solutions/connect.html#agents)** · **[Read the spec](https://ai-governance.solutions/connect.html#spec)** · [All products](https://github.com/GLOBAL-AI-GOVERNANCE/GLOBAL-AI-GOVERNANCE#product-map)
 <!-- /gaig:nav -->
@@ -87,6 +87,8 @@ strategic_knowledge_impact_note
 ```
 
 Its purpose is to record whether an AI system may improve, degrade, or obscure verifiable understanding.
+
+The `v1.1.1` release adds the Qualification Evidence, Unresolved Decision, and Protected Concern Disposition reference schemas, and gives the portfolio handoff schema a `$id` that resolves to the published document. The historical AI Governance OS `v1.1` release is unchanged.
 
 Preserving this release history does not mean every artifact is a deployed control or current legal determination.
 
