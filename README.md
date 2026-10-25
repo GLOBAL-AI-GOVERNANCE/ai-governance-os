@@ -3,7 +3,9 @@
 <!-- gaig:nav -->
 **[Global AI Governance](https://ai-governance.solutions/)** · `v1.1.1 · stable` · `authority_effect: NONE`
 
-[Connect your agent](https://ai-governance.solutions/connect.html#agents) · [Specifications](https://ai-governance.solutions/connect.html#spec) · [All products](https://ai-governance.solutions/#products)
+[Start where you are](https://ai-governance.solutions/start.html) · [Connect your agent](https://ai-governance.solutions/connect.html#agents) · [Specifications](https://ai-governance.solutions/connect.html#spec) · [All products](https://ai-governance.solutions/#products)
+
+Suite path, step 8 of 9: govern the whole · ← [AI Cyber Resilience Framework](https://github.com/GLOBAL-AI-GOVERNANCE/ai-cyber-resilience-framework) · [Governed Systems Administration](https://github.com/GLOBAL-AI-GOVERNANCE/governed-systems-administration) → · [start anywhere](https://ai-governance.solutions/start.html)
 <!-- /gaig:nav -->
 
 **Foundational governance models, schemas, registers, templates, and playbooks for accountable AI oversight.**
